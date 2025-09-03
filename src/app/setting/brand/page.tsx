@@ -11,6 +11,7 @@ export default function SettingBrandPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("✅ Komponen Brand DIPASANG (MOUNTED)");
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -34,6 +35,7 @@ export default function SettingBrandPage() {
     getBrands();
 
     return () => {
+      console.log("❌ Komponen Brand DILEPAS (UNMOUNTED)");
       controller.abort();
     };
   }, []);
