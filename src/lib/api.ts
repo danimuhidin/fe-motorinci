@@ -1,17 +1,18 @@
+// lib/api.ts
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+// Fungsi untuk mendapatkan token dari localStorage.
 const getAuthToken = (): string | null => {
   if (typeof window === 'undefined') {
-    return null; // localStorage tidak tersedia di server-side
+    return null;
   }
   return localStorage.getItem('authToken');
 };
 
+// Fungsi untuk login ke API dan menyimpan token.
 const loginAndStoreToken = async (): Promise<string> => {
   console.log('Attempting to login and get new token...');
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +29,7 @@ const loginAndStoreToken = async (): Promise<string> => {
     }
 
     const data = await response.json();
-    const token = data.token; // Sesuaikan key ini jika berbeda di response API Anda
+    const token = data.token;
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('authToken', token);
@@ -41,53 +42,65 @@ const loginAndStoreToken = async (): Promise<string> => {
   }
 };
 
+/**
+ * Fungsi utama untuk melakukan fetch ke API yang membutuhkan autentikasi.
+ * Generik dan bisa digunakan oleh semua service API.
+ */
 export const fetchWithAuth = async <T>(
-  endpoint: string, 
-  options: RequestInit = {} // Terima options sebagai argumen
+  endpoint: string,
+  options: RequestInit = {}
 ): Promise<T> => {
   let token = getAuthToken();
 
   if (!token) {
     token = await loginAndStoreToken();
   }
+  
+  const headers = new Headers(options.headers);
 
-  const fetchOptions = {
-    ...options, // <-- Masukkan options (termasuk signal) di sini
-    headers: {
-      ...options.headers,
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
+  headers.set('Authorization', `Bearer ${token}`);
+  headers.set('Accept', 'application/json');
+
+  if (options.body instanceof FormData) {
+    headers.delete('Content-Type'); 
+  } else {
+    headers.set('Content-Type', 'application/json');
+  }
+
+  const fetchOptions: RequestInit = {
+    ...options,
+    headers: headers,
   };
 
-  const response = await fetch(`${API_URL}${endpoint}`, fetchOptions);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, fetchOptions);
 
   if (response.status === 401) {
     console.log('Token might be expired. Re-authenticating...');
     token = await loginAndStoreToken();
     
-    const retryResponse = await fetch(`${API_URL}${endpoint}`, {
-      ...options,
-      headers: {
-        ...options.headers,
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
+    headers.set('Authorization', `Bearer ${token}`);
+    
+    const retryOptions: RequestInit = {
+      ...fetchOptions,
+      headers: headers,
+    };
+    const retryResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, retryOptions);
 
     if (!retryResponse.ok) {
-      throw new Error('Failed to fetch data even after re-authentication.');
+        const errorData = await retryResponse.json().catch(() => ({ message: 'Failed to fetch data after re-authentication.' }));
+        throw new Error(errorData.message);
     }
-    const data = await retryResponse.json();
-    return data.data; // Mengembalikan nested object 'data' sesuai contoh JSON Anda
+    return await retryResponse.json();
   }
   
   if (!response.ok) {
-    throw new Error('API request failed.');
+    const errorData = await response.json().catch(() => ({ message: 'API request failed.' }));
+    throw new Error(errorData.message);
   }
 
-  const data = await response.json();
-  return data.data; // Mengembalikan nested object 'data' sesuai contoh JSON Anda
+  if (response.status === 204) {
+    return null as T;
+  }
+
+  return await response.json();
 };

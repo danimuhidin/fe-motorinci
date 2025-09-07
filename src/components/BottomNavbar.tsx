@@ -45,7 +45,7 @@ export function BottomNavbar() {
                     href={item.href}
                     className={cn(
                       "relative flex h-16 w-16 flex-col items-center border border-white/30 justify-center gap-1 rounded-full bg-black text-gray-300 shadow-lg transition-transform duration-200 active:bg-black/90",
-                      isActive ? "scale-110 text-white" : "scale-100"
+                      isActive ? "scale-110 text-white border-2 border-red-700 bg-red-700" : "scale-100"
                     )}
                   >
                     <item.icon className="h-7 w-7" />
@@ -61,7 +61,7 @@ export function BottomNavbar() {
                 href={item.href}
                 className={cn(
                   "flex h-full w-full flex-col items-center justify-center gap-1 transition-colors duration-200 text-gray-300 active:bg-gray-500",
-                  isActive ? "text-white" : "hover:text-white"
+                  isActive ? "text-red-700" : "hover:text-white"
                 )}
               >
                 <item.icon className="h-5 w-5" />
