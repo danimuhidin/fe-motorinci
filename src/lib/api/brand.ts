@@ -41,43 +41,51 @@ export const createBrand = async (brandData: BrandFormData): Promise<Brand> => {
   });
   return response.data;
 };
-
 /**
- * READ: Mengambil daftar semua brand dari server.
+ * READ (All): Mengambil daftar semua brand.
  */
 export const getBrands = async (signal?: AbortSignal): Promise<Brand[]> => {
   const response = await fetchWithAuth<{ data: Brand[] }>('/motorinci/brands', { 
     signal, 
     method: 'GET' 
   });
-  return response.data; // API Anda membungkus hasil dalam 'data'
+  return response.data;
 };
 
 /**
+ * READ (by ID): Mengambil detail satu brand.
+ */
+export const getBrandById = async (id: number, signal?: AbortSignal): Promise<Brand> => {
+  const response = await fetchWithAuth<{ data: Brand }>(`/motorinci/brands/${id}`, {
+    signal,
+    method: 'GET',
+  });
+  return response.data;
+};
+
+
+/**
  * UPDATE: Mengupdate brand yang ada.
- * (Ini adalah contoh implementasi lengkap untuk nanti)
  */
 export const updateBrand = async (id: number, brandData: Partial<BrandFormData>): Promise<Brand> => {
   const formData = new FormData();
   
-  // Append hanya data yang diisi
   if (brandData.name) formData.append('name', brandData.name);
   if (brandData.desc) formData.append('desc', brandData.desc);
   if (brandData.icon) formData.append('icon', brandData.icon);
   if (brandData.image) formData.append('image', brandData.image);
   
-  // Laravel memerlukan method spoofing untuk FormData dengan PUT/PATCH
   formData.append('_method', 'PUT'); 
 
   const response = await fetchWithAuth<{ data: Brand }>(`/motorinci/brands/${id}`, {
-    method: 'POST', // Kirim sebagai POST
+    method: 'POST',
     body: formData,
   });
   return response.data;
 };
 
 /**
- * DELETE: Menghapus brand.
+ * DELETE: Menghapus satu atau lebih brand.
  */
 export const deleteBrand = async (id: number): Promise<void> => {
   await fetchWithAuth<void>(`/motorinci/brands/${id}`, {

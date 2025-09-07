@@ -6,6 +6,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { BottomNavbar } from "@/components/BottomNavbar";
 import ClientLayout from "./client-layout";
+import { Toaster } from "sonner";
 
 // Konfigurasi Font
 const fontSans = FontSans({
@@ -39,6 +40,7 @@ export default function RootLayout({
             <BottomNavbar />
           </main>
         </div>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );
