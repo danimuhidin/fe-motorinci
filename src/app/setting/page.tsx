@@ -1,7 +1,7 @@
 import SimpleHeader from "@/components/SimpleHeader";
 import Link from "next/link";
 import {
-  User, Settings, Info, Factory
+  Info, Factory
 } from "lucide-react";
 
 export default function Setting() {
@@ -14,18 +14,6 @@ export default function Setting() {
     },
   ];
   const MenuSettings = [
-    {
-      title: "Profile",
-      description: "Manage your profile settings",
-      icon: <User className="text-xl" />,
-      href: "/setting/profile",
-    },
-    {
-      title: "Account",
-      description: "Security and login settings",
-      icon: <Settings className="text-xl" />,
-      href: "/setting/account",
-    },
     {
       title: "Brand",
       description: "Manage motorcycle brand",

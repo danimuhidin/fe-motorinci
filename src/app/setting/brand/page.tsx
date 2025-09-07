@@ -123,7 +123,7 @@ export default function SettingBrandPage() {
       cancelSelectionMode();
       await refreshBrands(); // Muat ulang daftar untuk menampilkan data yang tersisa
     }
-};
+  };
 
   // --- LOGIKA INTERAKSI (KLIK vs TAHAN LAMA) ---
 
@@ -133,7 +133,7 @@ export default function SettingBrandPage() {
       isLongPressTriggered.current = true;
       setSelectionMode(true);
       toggleSelection(brandId);
-    }, 500); // 500ms untuk dianggap tahan lama
+    }, 750); // 750ms untuk dianggap tahan lama
   };
 
   const handleMouseUp = () => {
@@ -169,7 +169,7 @@ export default function SettingBrandPage() {
             onClick={() => handleClick(brand.id)}
             onTouchStart={() => handleMouseDown(brand.id)} // For mobile
             onTouchEnd={handleMouseUp} // For mobile
-            className={`py-4 px-4 flex items-center gap-4 transition-colors duration-200 ${selectionMode ? 'cursor-pointer hover:bg-gray-800' : ''} ${selectedIds.includes(brand.id) ? 'bg-red-900/50' : ''}`}
+            className={`py-3 px-4 flex items-center gap-4 transition-colors duration-200 ${selectionMode ? 'cursor-pointer hover:bg-gray-800' : ''} ${selectedIds.includes(brand.id) ? 'bg-red-900/50' : ''}`}
           >
             {selectionMode && (
               <Checkbox
@@ -180,7 +180,13 @@ export default function SettingBrandPage() {
             )}
             <div>
               <h3 className="font-semibold text-lg">{brand.name}</h3>
-              <p className="text-gray-400 text-sm mt-1">{brand.desc}</p>
+              <p
+                className="text-gray-400 text-sm mt-0 
+                whitespace-nowrap overflow-hidden text-ellipsis 
+                max-w-[82vw] sm:max-w-[380px]"
+              >
+                {brand.desc}
+              </p>
             </div>
           </li>
         ))}

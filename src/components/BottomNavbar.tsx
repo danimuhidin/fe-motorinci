@@ -7,8 +7,8 @@ import {
   Home,
   Calculator,
   GitCompareArrows,
-  Newspaper,
   Settings,
+  Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,7 @@ const menuItems: MenuItem[] = [
   { href: "/compare", label: "Compare", icon: GitCompareArrows },
   { href: "/calculator", label: "Calculator", icon: Calculator },
   { href: "/", label: "Home", icon: Home },
-  { href: "/news", label: "News", icon: Newspaper },
+  { href: "/ai", label: "AI", icon: Bot },
   { href: "/setting", label: "Setting", icon: Settings },
 ];
 

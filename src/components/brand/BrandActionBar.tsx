@@ -27,7 +27,7 @@ export function BrandActionBar({
   const isDeleteDisabled = selectedCount === 0;
 
   return (
-    <div className="sticky top-0 z-10 flex h-16 items-center justify-between bg-zinc-900 px-4 py-2 border-b border-white/20 animate-fade-in">
+    <div className="sticky top-0 z-10 flex h-12 items-center justify-between bg-zinc-900 px-4 py-2 border-b border-white/20 animate-fade-in">
       {/* Sisi Kiri: Batal, Pilih Semua, dan Jumlah */}
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" onClick={onCancel}>

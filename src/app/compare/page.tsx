@@ -1,7 +1,9 @@
+import SimpleHeader from "@/components/SimpleHeader";
+
 export default function Compare() {
   return (
     <div className="min-h-screen">
-      <h1>Compare</h1>
+      <SimpleHeader title="Compare" />
     </div>
   );
 }

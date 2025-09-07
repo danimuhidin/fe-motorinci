@@ -1,7 +1,9 @@
+import SimpleHeader from "@/components/SimpleHeader";
+
 export default function Calculator() {
   return (
     <div className="min-h-screen">
-      <h1>Calculator</h1>
+      <SimpleHeader title="Calculator" />
     </div>
   );
 }
