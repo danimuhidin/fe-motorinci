@@ -42,13 +42,13 @@ export default function Setting() {
       title: "Specification Group",
       description: "Manage data specification group",
       icon: <Group className="text-xl" />,
-      href: "/setting/specification-group",
+      href: "/setting/spec-group",
     },
     {
       title: "Specification Item",
       description: "Manage data specification item",
       icon: <Box className="text-xl" />,
-      href: "/setting/specification-item",
+      href: "/setting/spec-item",
     },
   ];
 
