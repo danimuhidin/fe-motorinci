@@ -1,22 +1,16 @@
-// lib/api/brand.ts
-
 import type { Brand, NewBrandData } from '@/types/brand';
 import { fetchWithAuth } from '../api';
 
-// Tipe untuk data formulir yang menyertakan file, berdasarkan tipe Anda
 export type BrandFormData = Omit<NewBrandData, 'icon' | 'image'> & {
   icon?: File;
   image?: File;
 };
 
-/**
- * CREATE: Membuat brand baru.
- */
 export const createBrand = async (brandData: BrandFormData): Promise<Brand> => {
   const hasFiles = brandData.icon || brandData.image;
 
   let body: FormData | string;
-  const headers: HeadersInit = {}; // Perubahan: 'let' menjadi 'const'
+  const headers: HeadersInit = {};
 
   if (hasFiles) {
     const formData = new FormData();
@@ -30,7 +24,6 @@ export const createBrand = async (brandData: BrandFormData): Promise<Brand> => {
       name: brandData.name,
       desc: brandData.desc,
     });
-    // Ini adalah mutasi, bukan re-assignment, jadi 'const' valid.
     headers['Content-Type'] = 'application/json';
   }
 
@@ -41,9 +34,7 @@ export const createBrand = async (brandData: BrandFormData): Promise<Brand> => {
   });
   return response.data;
 };
-/**
- * READ (All): Mengambil daftar semua brand.
- */
+
 export const getBrands = async (signal?: AbortSignal): Promise<Brand[]> => {
   const response = await fetchWithAuth<{ data: Brand[] }>('/motorinci/brands', { 
     signal, 
@@ -52,9 +43,6 @@ export const getBrands = async (signal?: AbortSignal): Promise<Brand[]> => {
   return response.data;
 };
 
-/**
- * READ (by ID): Mengambil detail satu brand.
- */
 export const getBrandById = async (id: number, signal?: AbortSignal): Promise<Brand> => {
   const response = await fetchWithAuth<{ data: Brand }>(`/motorinci/brands/${id}`, {
     signal,
@@ -63,10 +51,6 @@ export const getBrandById = async (id: number, signal?: AbortSignal): Promise<Br
   return response.data;
 };
 
-
-/**
- * UPDATE: Mengupdate brand yang ada.
- */
 export const updateBrand = async (id: number, brandData: Partial<BrandFormData>): Promise<Brand> => {
   const formData = new FormData();
   
@@ -84,9 +68,6 @@ export const updateBrand = async (id: number, brandData: Partial<BrandFormData>)
   return response.data;
 };
 
-/**
- * DELETE: Menghapus satu atau lebih brand.
- */
 export const deleteBrand = async (id: number): Promise<void> => {
   await fetchWithAuth<void>(`/motorinci/brands/${id}`, {
     method: 'DELETE',
