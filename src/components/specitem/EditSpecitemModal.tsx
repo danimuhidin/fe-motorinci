@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,90 +13,88 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getBrandById, updateBrand } from "@/lib/api/brand";
-import type { Brand } from "@/types/brand";
+import { getSpecitemById, updateSpecitem } from "@/lib/api/specitem";
+import type { Specitem } from "@/types/specitem";
 
-interface EditBrandModalProps {
-  brandId: number | null;
+interface EditSpecitemModalProps {
+  specitemId: number | null;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
-
-export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalProps) {
+export function EditSpecitemModal({ specitemId, onClose, onSuccess }: EditSpecitemModalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [newIcon, setNewIcon] = useState<File | undefined>();
-  const [newImage, setNewImage] = useState<File | undefined>();
+  const [unit, setUnit] = useState("");
+  const [specification_group_id, setSpecificationGroupId] = useState<number | null>(null);
 
-  const [initialBrand, setInitialBrand] = useState<Brand | null>(null);
+  const [initialSpecitem, setInitialSpecitem] = useState<Specitem | null>(null);
   const [loading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!brandId) return;
+    if (!specitemId) return;
 
-    const fetchBrand = async () => {
+    const fetchSpecitem = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getBrandById(brandId);
-        setInitialBrand(data);
+        const data = await getSpecitemById(specitemId);
+        setInitialSpecitem(data);
         setName(data.name);
         setDesc(data.desc || "");
+        setUnit(data.unit);
+        setSpecificationGroupId(data.specification_group_id);
       } catch (err) {
         console.error(err);
-        setError("Gagal memuat data brand.");
+        setError("Gagal memuat data spesifikasi.");
       } finally {
         setLoading(false);
       }
     };
-    fetchBrand();
-  }, [brandId]);
+    fetchSpecitem();
+  }, [specitemId]);
 
   const handleUpdate = async () => {
     if (!name) {
       setError("Nama wajib diisi.");
       return;
     }
-    if (!brandId) return;
+    if (!specitemId) return;
 
     setIsSaving(true);
     setError(null);
 
     try {
-      await updateBrand(brandId, {
+      await updateSpecitem(specitemId, {
         name,
         desc,
-        icon: newIcon,
-        image: newImage,
+        unit,
+        specification_group_id,
       });
       onSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.message || "Gagal memperbarui brand.");
+      setError(err.message || "Gagal memperbarui spesifikasi.");
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleClose = () => {
-    setNewIcon(undefined);
-    setNewImage(undefined);
     onClose();
   };
 
   return (
-    <Dialog open={!!brandId} onOpenChange={handleClose}>
+    <Dialog open={!!specitemId} onOpenChange={handleClose}>
       <DialogContent className="
         w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20 
         flex flex-col max-h-[90vh] 
         top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2 rounded-lg"
       >
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle>Edit Brand: {initialBrand?.name || "..."}</DialogTitle>
+          <DialogTitle>Edit Spesifikasi: {initialSpecitem?.name || "..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
@@ -115,23 +112,13 @@ export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalPr
                   <Label htmlFor="desc-edit" className="text-right">Deskripsi</Label>
                   <Input id="desc-edit" value={desc} onChange={(e) => setDesc(e.target.value)} className="col-span-3 bg-gray-800" />
                 </div>
-                <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="icon-edit" className="text-right pt-2">Ikon Baru</Label>
-                  <div className="col-span-3">
-                    <div className="w-16 h-16 relative bg-gray-700 rounded-md mb-2">
-                      <Image src={initialBrand?.icon ? `${API_PUBLIC_URL}${initialBrand.icon}` : '/imagenotfound.png'} alt="Current Icon" fill style={{ objectFit: 'contain' }} />
-                    </div>
-                    <Input id="icon-edit" type="file" onChange={(e) => setNewIcon(e.target.files?.[0])} className="file:text-white bg-gray-800" accept="image/*" />
-                  </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="unit-edit" className="text-right">Unit</Label>
+                  <Input id="unit-edit" value={unit} onChange={(e) => setUnit(e.target.value)} className="col-span-3 bg-gray-800" />
                 </div>
-                <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="image-edit" className="text-right pt-2">Gambar Baru</Label>
-                  <div className="col-span-3">
-                    <div className="w-24 h-16 relative bg-gray-700 rounded-md mb-2">
-                      <Image src={initialBrand?.image ? `${API_PUBLIC_URL}${initialBrand.image}` : '/imagenotfound.png'} alt="Current Image" fill style={{ objectFit: 'cover' }} />
-                    </div>
-                    <Input id="image-edit" type="file" onChange={(e) => setNewImage(e.target.files?.[0])} className="file:text-white bg-gray-800" accept="image/*" />
-                  </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="specification_group_id-edit" className="text-right">Group ID</Label>
+                  <Input id="specification_group_id-edit" type="number" value={specification_group_id ?? ''} onChange={(e) => setSpecificationGroupId(e.target.value ? parseInt(e.target.value) : null)} className="col-span-3 bg-gray-800" />
                 </div>
               </div>
             </div>

@@ -14,90 +14,87 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getBrandById, updateBrand } from "@/lib/api/brand";
-import type { Brand } from "@/types/brand";
+import { getCategoryById, updateCategory } from "@/lib/api/category";
+import type { Category } from "@/types/category";
 
-interface EditBrandModalProps {
-  brandId: number | null;
+interface EditCategoryModalProps {
+  categoryId: number | null;
   onClose: () => void;
   onSuccess: () => void;
 }
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 
-export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalProps) {
+export function EditCategoryModal({ categoryId, onClose, onSuccess }: EditCategoryModalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [newIcon, setNewIcon] = useState<File | undefined>();
   const [newImage, setNewImage] = useState<File | undefined>();
 
-  const [initialBrand, setInitialBrand] = useState<Brand | null>(null);
+  const [initialCategory, setInitialCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!brandId) return;
+    if (!categoryId) return;
 
-    const fetchBrand = async () => {
+    const fetchCategory = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getBrandById(brandId);
-        setInitialBrand(data);
+        const data = await getCategoryById(categoryId);
+        setInitialCategory(data);
         setName(data.name);
         setDesc(data.desc || "");
       } catch (err) {
         console.error(err);
-        setError("Gagal memuat data brand.");
+        setError("Gagal memuat data kategori.");
       } finally {
         setLoading(false);
       }
     };
-    fetchBrand();
-  }, [brandId]);
+    fetchCategory();
+  }, [categoryId]);
 
   const handleUpdate = async () => {
     if (!name) {
       setError("Nama wajib diisi.");
       return;
     }
-    if (!brandId) return;
+    if (!categoryId) return;
 
     setIsSaving(true);
     setError(null);
 
     try {
-      await updateBrand(brandId, {
+      await updateCategory(categoryId, {
         name,
         desc,
-        icon: newIcon,
         image: newImage,
       });
       onSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.message || "Gagal memperbarui brand.");
+      setError(err.message || "Gagal memperbarui category.");
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleClose = () => {
-    setNewIcon(undefined);
     setNewImage(undefined);
     onClose();
   };
 
   return (
-    <Dialog open={!!brandId} onOpenChange={handleClose}>
+    <Dialog open={!!categoryId} onOpenChange={handleClose}>
       <DialogContent className="
         w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20 
         flex flex-col max-h-[90vh] 
         top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2 rounded-lg"
       >
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle>Edit Brand: {initialBrand?.name || "..."}</DialogTitle>
+          <DialogTitle>Edit Category: {initialCategory?.name || "..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
@@ -116,19 +113,10 @@ export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalPr
                   <Input id="desc-edit" value={desc} onChange={(e) => setDesc(e.target.value)} className="col-span-3 bg-gray-800" />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="icon-edit" className="text-right pt-2">Ikon Baru</Label>
-                  <div className="col-span-3">
-                    <div className="w-16 h-16 relative bg-gray-700 rounded-md mb-2">
-                      <Image src={initialBrand?.icon ? `${API_PUBLIC_URL}${initialBrand.icon}` : '/imagenotfound.png'} alt="Current Icon" fill style={{ objectFit: 'contain' }} />
-                    </div>
-                    <Input id="icon-edit" type="file" onChange={(e) => setNewIcon(e.target.files?.[0])} className="file:text-white bg-gray-800" accept="image/*" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-4 items-start gap-4">
                   <Label htmlFor="image-edit" className="text-right pt-2">Gambar Baru</Label>
                   <div className="col-span-3">
                     <div className="w-24 h-16 relative bg-gray-700 rounded-md mb-2">
-                      <Image src={initialBrand?.image ? `${API_PUBLIC_URL}${initialBrand.image}` : '/imagenotfound.png'} alt="Current Image" fill style={{ objectFit: 'cover' }} />
+                      <Image src={initialCategory?.image ? `${API_PUBLIC_URL}${initialCategory.image}` : '/imagenotfound.png'} alt="Current Image" fill style={{ objectFit: 'cover' }} />
                     </div>
                     <Input id="image-edit" type="file" onChange={(e) => setNewImage(e.target.files?.[0])} className="file:text-white bg-gray-800" accept="image/*" />
                   </div>

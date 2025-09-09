@@ -13,28 +13,22 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createBrand } from "@/lib/api/brand";
+import { createSpecgroup } from "@/lib/api/specgroup";
 
-interface AddBrandModalProps {
+interface AddSpecgroupModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps) {
+export function AddSpecgroupModal({ isOpen, onClose, onSuccess }: AddSpecgroupModalProps) {
   const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [icon, setIcon] = useState<File | undefined>();
-  const [image, setImage] = useState<File | undefined>();
 
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const resetForm = () => {
     setName("");
-    setDesc("");
-    setIcon(undefined);
-    setImage(undefined);
     setError(null);
   };
 
@@ -48,12 +42,12 @@ export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps
     setError(null);
 
     try {
-      await createBrand({ name, desc, icon, image });
+      await createSpecgroup({ name });
       resetForm();
       onSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.message || "Gagal menyimpan brand. Coba lagi.");
+      setError(err.message || "Gagal menyimpan specgroup. Coba lagi.");
     } finally {
       setIsSaving(false);
     }
@@ -74,7 +68,7 @@ export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps
         top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2 rounded-lg"
       >
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle>Tambah Brand Baru</DialogTitle>
+          <DialogTitle>Tambah Specgroup Baru</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
@@ -82,19 +76,7 @@ export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">Nama</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Brand" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="description" className="text-right">Deskripsi</Label>
-              <Input id="description" value={desc} onChange={(e) => setDesc(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Desc" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="icon" className="text-right">Ikon</Label>
-              <Input id="icon" type="file" onChange={(e) => setIcon(e.target.files?.[0])} className="col-span-3 file:text-white bg-gray-800 border-gray-600" accept="image/*" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">Gambar</Label>
-              <Input id="image" type="file" onChange={(e) => setImage(e.target.files?.[0])} className="col-span-3 file:text-white bg-gray-800 border-gray-600" accept="image/*" />
+              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Nama" />
             </div>
           </div>
         </div>

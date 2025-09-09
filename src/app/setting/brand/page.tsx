@@ -3,39 +3,36 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Plus, Loader2 } from "lucide-react";
-import { toast } from "sonner"; // Perubahan: Impor toast dari sonner
+import { toast } from "sonner";
 import SimpleHeader from "@/components/SimpleHeader";
 import type { Brand } from "@/types/brand";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getBrands, deleteBrand } from "@/lib/api/brand";
 import { AddBrandModal } from "@/components/brand/AddBrandModal";
-import { BrandActionBar } from "@/components/brand/BrandActionBar";
+import { ActionBar } from "@/components/ActionBar";
 import { BrandDetailModal } from "@/components/brand/BrandDetailModal";
 import { EditBrandModal } from "@/components/brand/EditBrandModal";
-import { DeleteConfirmDialog } from "@/components/brand/DeleteConfirmDialog";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 
 export default function SettingBrandPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // State untuk mode seleksi
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-  // State untuk mengontrol semua modal
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [viewingBrandId, setViewingBrandId] = useState<number | null>(null);
   const [editingBrandId, setEditingBrandId] = useState<number | null>(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Ref untuk membedakan klik dan tahan lama
   const pressTimer = useRef<NodeJS.Timeout | null>(null);
   const isLongPressTriggered = useRef(false);
 
-  // --- LOGIKA UTAMA ---
+
 
   const refreshBrands = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
@@ -60,26 +57,20 @@ export default function SettingBrandPage() {
     };
   }, [refreshBrands]);
 
-  // Fungsi untuk menangani seleksi
   const toggleSelection = (id: number) => {
     setSelectedIds((prevIds) => {
-      // Hitung dulu array ID yang baru
       const newIds = prevIds.includes(id)
         ? prevIds.filter((prevId) => prevId !== id)
         : [...prevIds, id];
 
-      // Cek apakah array baru tersebut kosong
       if (newIds.length === 0) {
-        // Jika ya, keluar dari mode seleksi
         setSelectionMode(false);
       }
 
-      // Kembalikan array baru untuk memperbarui state
       return newIds;
     });
   };
 
-  // Fungsi untuk keluar dari mode seleksi
   const cancelSelectionMode = () => {
     setSelectionMode(false);
     setSelectedIds([]);
@@ -87,11 +78,9 @@ export default function SettingBrandPage() {
 
   const handleSelectAll = () => {
     if (selectedIds.length === brands.length) {
-      // Kondisi "Unselect All"
       setSelectedIds([]);
       setSelectionMode(false);
     } else {
-      // Kondisi "Select All"
       setSelectedIds(brands.map((brand) => brand.id));
     }
   };
@@ -99,33 +88,29 @@ export default function SettingBrandPage() {
   const handleDeleteSelected = async () => {
     setIsDeleting(true);
     try {
-      // 1. Lakukan loop untuk setiap ID yang dipilih
       for (const id of selectedIds) {
-        await deleteBrand(id); // Hapus satu per satu
+        await deleteBrand(id);
       }
 
-      // 2. Toast sukses hanya muncul jika semua berhasil (loop selesai tanpa error)
       toast.success("Sukses!", {
         description: `${selectedIds.length} brand berhasil dihapus.`,
         duration: 2000,
       });
 
     } catch (err: any) {
-      // 3. Jika salah satu gagal, loop berhenti dan toast error muncul
       toast.error("Error!", {
         description: err.message || "Gagal menghapus salah satu brand. Proses dihentikan.",
         duration: 2000,
       });
     } finally {
-      // 4. Blok ini selalu berjalan, baik sukses maupun gagal
       setIsDeleteConfirmOpen(false);
       setIsDeleting(false);
       cancelSelectionMode();
-      await refreshBrands(); // Muat ulang daftar untuk menampilkan data yang tersisa
+      await refreshBrands();
     }
   };
 
-  // --- LOGIKA INTERAKSI (KLIK vs TAHAN LAMA) ---
+
 
   const handleMouseDown = (brandId: number) => {
     isLongPressTriggered.current = false;
@@ -133,7 +118,7 @@ export default function SettingBrandPage() {
       isLongPressTriggered.current = true;
       setSelectionMode(true);
       toggleSelection(brandId);
-    }, 750); // 750ms untuk dianggap tahan lama
+    }, 750);
   };
 
   const handleMouseUp = () => {
@@ -152,7 +137,7 @@ export default function SettingBrandPage() {
     }
   };
 
-  // --- RENDER ---
+
 
   const renderContent = () => {
     if (loading) return <div className="flex justify-center items-center h-40"><Loader2 className="animate-spin text-red-500" size={32} /></div>;
@@ -197,7 +182,7 @@ export default function SettingBrandPage() {
   return (
     <>
       {selectionMode ? (
-        <BrandActionBar
+        <ActionBar
           selectedCount={selectedIds.length}
           totalCount={brands.length}
           onCancel={cancelSelectionMode}
@@ -209,7 +194,7 @@ export default function SettingBrandPage() {
         <SimpleHeader title="Brand" backUrl="/setting" />
       )}
 
-      <div className="pb-24"> {/* Dihapus px-4 dan pt-4 karena sudah ada di list item */}
+      <div className="pb-24">
         <div className="mb-5">
           {renderContent()}
         </div>

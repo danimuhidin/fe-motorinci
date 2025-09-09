@@ -13,28 +13,28 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createBrand } from "@/lib/api/brand";
+import { createSpecitem } from "@/lib/api/specitem";
 
-interface AddBrandModalProps {
+interface AddSpecitemModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps) {
+export function AddSpecitemModal({ isOpen, onClose, onSuccess }: AddSpecitemModalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [icon, setIcon] = useState<File | undefined>();
-  const [image, setImage] = useState<File | undefined>();
-
+  const [specification_group_id, setSpecificationGroupId] = useState<number | null>(null);
+  const [unit, setUnit] = useState("");
+  
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const resetForm = () => {
     setName("");
     setDesc("");
-    setIcon(undefined);
-    setImage(undefined);
+    setUnit("");
+    setSpecificationGroupId(null);
     setError(null);
   };
 
@@ -48,12 +48,12 @@ export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps
     setError(null);
 
     try {
-      await createBrand({ name, desc, icon, image });
+      await createSpecitem({ name, desc, unit, specification_group_id });
       resetForm();
       onSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.message || "Gagal menyimpan brand. Coba lagi.");
+      setError(err.message || "Gagal menyimpan spesifikasi. Coba lagi.");
     } finally {
       setIsSaving(false);
     }
@@ -74,7 +74,7 @@ export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps
         top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2 rounded-lg"
       >
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle>Tambah Brand Baru</DialogTitle>
+          <DialogTitle>Tambah Spesifikasi Item Baru</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
@@ -82,19 +82,19 @@ export function AddBrandModal({ isOpen, onClose, onSuccess }: AddBrandModalProps
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">Nama</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Brand" />
+              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Spesifikasi Item" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">Deskripsi</Label>
               <Input id="description" value={desc} onChange={(e) => setDesc(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Desc" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="icon" className="text-right">Ikon</Label>
-              <Input id="icon" type="file" onChange={(e) => setIcon(e.target.files?.[0])} className="col-span-3 file:text-white bg-gray-800 border-gray-600" accept="image/*" />
+              <Label htmlFor="unit" className="text-right">Unit</Label>
+              <Input id="unit" value={unit} onChange={(e) => setUnit(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Unit" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">Gambar</Label>
-              <Input id="image" type="file" onChange={(e) => setImage(e.target.files?.[0])} className="col-span-3 file:text-white bg-gray-800 border-gray-600" accept="image/*" />
+              <Label htmlFor="specification_group_id" className="text-right">Group ID</Label>
+              <Input id="specification_group_id" type="number" value={specification_group_id ?? ''} onChange={(e) => setSpecificationGroupId(e.target.value ? parseInt(e.target.value) : null)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Group ID" />
             </div>
           </div>
         </div>

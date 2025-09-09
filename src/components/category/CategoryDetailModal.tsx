@@ -10,47 +10,47 @@ import {
   DialogTitle,
   DialogDescription
 } from "@/components/ui/dialog";
-import type { Brand } from "@/types/brand";
-import { getBrandById } from "@/lib/api/brand";
+import type { Category } from "@/types/category";
+import { getCategoryById } from "@/lib/api/category";
 
-interface BrandDetailModalProps {
-  brandId: number | null;
+interface CategoryDetailModalProps {
+  categoryId: number | null;
   onClose: () => void;
 }
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 
-export function BrandDetailModal({ brandId, onClose }: BrandDetailModalProps) {
-  const [brand, setBrand] = useState<Brand | null>(null);
+export function CategoryDetailModal({ categoryId, onClose }: CategoryDetailModalProps) {
+  const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!brandId) return;
+    if (!categoryId) return;
 
     const controller = new AbortController();
-    const fetchBrandDetail = async () => {
+    const fetchCategoryDetail = async () => {
       setLoading(true);
       setError(null);
-      setBrand(null);
+      setCategory(null);
       try {
-        const data = await getBrandById(brandId, controller.signal);
-        setBrand(data);
+        const data = await getCategoryById(categoryId, controller.signal);
+        setCategory(data);
       } catch (err: any) {
         if (err.name !== 'AbortError') {
-          setError("Gagal memuat detail brand.");
+          setError("Gagal memuat detail kategori.");
         }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBrandDetail();
+    fetchCategoryDetail();
 
     return () => {
       controller.abort();
     };
-  }, [brandId]);
+  }, [categoryId]);
 
   const renderContent = () => {
     if (loading) {
@@ -59,32 +59,19 @@ export function BrandDetailModal({ brandId, onClose }: BrandDetailModalProps) {
     if (error) {
       return <p className="text-center text-red-500 h-48">{error}</p>;
     }
-    if (!brand) return null;
+    if (!category) return null;
 
     return (
       <div className="space-y-4">
-        <p className="text-gray-300">{brand.desc || "Tidak ada deskripsi."}</p>
+        <p className="text-gray-300">{category.desc || "Tidak ada deskripsi."}</p>
         
         <div className="flex gap-4 justify-around items-start">
-            <div className="text-center">
-                <h4 className="font-semibold mb-2">Ikon</h4>
-                <div className="relative h-24 w-24 rounded-lg overflow-hidden bg-gray-800">
-                    <Image
-                        src={brand.icon ? `${API_PUBLIC_URL}${brand.icon}` : '/imagenotfound.png'}
-                        alt={brand.name + " icon"}
-                        fill
-                        style={{ objectFit: 'contain' }}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                </div>
-            </div>
-
             <div className="text-center">
                 <h4 className="font-semibold mb-2">Gambar</h4>
                  <div className="relative h-24 w-36 rounded-lg overflow-hidden bg-gray-800">
                     <Image
-                        src={brand.image ? `${API_PUBLIC_URL}${brand.image}` : '/imagenotfound.png'}
-                        alt={brand.name + " image"}
+                        src={category.image ? `${API_PUBLIC_URL}${category.image}` : '/imagenotfound.png'}
+                        alt={category.name + " image"}
                         fill
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -97,10 +84,10 @@ export function BrandDetailModal({ brandId, onClose }: BrandDetailModalProps) {
   };
 
   return (
-    <Dialog open={!!brandId} onOpenChange={onClose}>
+    <Dialog open={!!categoryId} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{brand?.name || "Memuat..."}</DialogTitle>
+          <DialogTitle className="text-2xl">{category?.name || "Memuat..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         {renderContent()}

@@ -14,70 +14,68 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getBrandById, updateBrand } from "@/lib/api/brand";
-import type { Brand } from "@/types/brand";
+import { getFeatureById, updateFeature } from "@/lib/api/feature";
+import type { Feature } from "@/types/feature";
 
-interface EditBrandModalProps {
-  brandId: number | null;
+interface EditFeatureModalProps {
+  featureId: number | null;
   onClose: () => void;
   onSuccess: () => void;
 }
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 
-export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalProps) {
+export function EditFeatureModal({ featureId, onClose, onSuccess }: EditFeatureModalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [newIcon, setNewIcon] = useState<File | undefined>();
-  const [newImage, setNewImage] = useState<File | undefined>();
 
-  const [initialBrand, setInitialBrand] = useState<Brand | null>(null);
+  const [initialFeature, setInitialFeature] = useState<Feature | null>(null);
   const [loading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!brandId) return;
+    if (!featureId) return;
 
-    const fetchBrand = async () => {
+    const fetchFeature = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getBrandById(brandId);
-        setInitialBrand(data);
+        const data = await getFeatureById(featureId);
+        setInitialFeature(data);
         setName(data.name);
         setDesc(data.desc || "");
       } catch (err) {
         console.error(err);
-        setError("Gagal memuat data brand.");
+        setError("Gagal memuat data fitur.");
       } finally {
         setLoading(false);
       }
     };
-    fetchBrand();
-  }, [brandId]);
+    fetchFeature();
+  }, [featureId]);
 
   const handleUpdate = async () => {
     if (!name) {
       setError("Nama wajib diisi.");
       return;
     }
-    if (!brandId) return;
+    if (!featureId) return;
 
     setIsSaving(true);
     setError(null);
 
     try {
-      await updateBrand(brandId, {
+      await updateFeature(featureId, {
         name,
         desc,
         icon: newIcon,
-        image: newImage,
       });
       onSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.message || "Gagal memperbarui brand.");
+      setError(err.message || "Gagal memperbarui fitur.");
     } finally {
       setIsSaving(false);
     }
@@ -85,19 +83,18 @@ export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalPr
 
   const handleClose = () => {
     setNewIcon(undefined);
-    setNewImage(undefined);
     onClose();
   };
 
   return (
-    <Dialog open={!!brandId} onOpenChange={handleClose}>
+    <Dialog open={!!featureId} onOpenChange={handleClose}>
       <DialogContent className="
         w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20 
         flex flex-col max-h-[90vh] 
         top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2 rounded-lg"
       >
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle>Edit Brand: {initialBrand?.name || "..."}</DialogTitle>
+          <DialogTitle>Edit Fitur: {initialFeature?.name || "..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
 
@@ -119,18 +116,9 @@ export function EditBrandModal({ brandId, onClose, onSuccess }: EditBrandModalPr
                   <Label htmlFor="icon-edit" className="text-right pt-2">Ikon Baru</Label>
                   <div className="col-span-3">
                     <div className="w-16 h-16 relative bg-gray-700 rounded-md mb-2">
-                      <Image src={initialBrand?.icon ? `${API_PUBLIC_URL}${initialBrand.icon}` : '/imagenotfound.png'} alt="Current Icon" fill style={{ objectFit: 'contain' }} />
+                      <Image src={initialFeature?.icon ? `${API_PUBLIC_URL}${initialFeature.icon}` : '/imagenotfound.png'} alt="Current Icon" fill style={{ objectFit: 'contain' }} />
                     </div>
                     <Input id="icon-edit" type="file" onChange={(e) => setNewIcon(e.target.files?.[0])} className="file:text-white bg-gray-800" accept="image/*" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-4 items-start gap-4">
-                  <Label htmlFor="image-edit" className="text-right pt-2">Gambar Baru</Label>
-                  <div className="col-span-3">
-                    <div className="w-24 h-16 relative bg-gray-700 rounded-md mb-2">
-                      <Image src={initialBrand?.image ? `${API_PUBLIC_URL}${initialBrand.image}` : '/imagenotfound.png'} alt="Current Image" fill style={{ objectFit: 'cover' }} />
-                    </div>
-                    <Input id="image-edit" type="file" onChange={(e) => setNewImage(e.target.files?.[0])} className="file:text-white bg-gray-800" accept="image/*" />
                   </div>
                 </div>
               </div>

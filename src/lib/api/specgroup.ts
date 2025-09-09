@@ -2,7 +2,7 @@ import type { Specgroup, NewSpecgroupData } from '@/types/specgroup';
 import { fetchWithAuth } from '../api';
 
 export const createSpecgroup = async (specgroupData: NewSpecgroupData): Promise<Specgroup> => {
-  const response = await fetchWithAuth<{ data: Specgroup }>('/motorinci/specgroups', {
+  const response = await fetchWithAuth<{ data: Specgroup }>('/motorinci/specification-groups', {
     method: 'POST',
     body: JSON.stringify(specgroupData),
     headers: {
@@ -13,7 +13,7 @@ export const createSpecgroup = async (specgroupData: NewSpecgroupData): Promise<
 };
 
 export const getSpecgroups = async (signal?: AbortSignal): Promise<Specgroup[]> => {
-  const response = await fetchWithAuth<{ data: Specgroup[] }>('/motorinci/specgroups', {
+  const response = await fetchWithAuth<{ data: Specgroup[] }>('/motorinci/specification-groups', {
     signal,
     method: 'GET',
   });
@@ -21,7 +21,7 @@ export const getSpecgroups = async (signal?: AbortSignal): Promise<Specgroup[]> 
 };
 
 export const getSpecgroupById = async (id: number, signal?: AbortSignal): Promise<Specgroup> => {
-  const response = await fetchWithAuth<{ data: Specgroup }>(`/motorinci/specgroups/${id}`, {
+  const response = await fetchWithAuth<{ data: Specgroup }>(`/motorinci/specification-groups/${id}`, {
     signal,
     method: 'GET',
   });
@@ -29,7 +29,7 @@ export const getSpecgroupById = async (id: number, signal?: AbortSignal): Promis
 };
 
 export const updateSpecgroup = async (id: number, specgroupData: Partial<NewSpecgroupData>): Promise<Specgroup> => {
-  const response = await fetchWithAuth<{ data: Specgroup }>(`/motorinci/specgroups/${id}`, {
+  const response = await fetchWithAuth<{ data: Specgroup }>(`/motorinci/specification-groups/${id}`, {
     method: 'PUT',
     body: JSON.stringify(specgroupData),
     headers: {
@@ -40,7 +40,7 @@ export const updateSpecgroup = async (id: number, specgroupData: Partial<NewSpec
 };
 
 export const deleteSpecgroup = async (id: number): Promise<void> => {
-  await fetchWithAuth<void>(`/motorinci/specgroups/${id}`, {
+  await fetchWithAuth<void>(`/motorinci/specification-groups/${id}`, {
     method: 'DELETE',
   });
 };

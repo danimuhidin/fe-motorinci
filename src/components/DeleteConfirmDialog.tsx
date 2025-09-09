@@ -1,4 +1,3 @@
-// components/brand/DeleteConfirmDialog.tsx
 "use client";
 
 import { Loader2 } from "lucide-react";
@@ -34,7 +33,7 @@ export function DeleteConfirmDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Apakah Anda Yakin?</AlertDialogTitle>
           <AlertDialogDescription className="text-gray-400">
-            Anda akan menghapus {selectedCount} brand yang dipilih. Aksi ini
+            Anda akan menghapus {selectedCount} data yang dipilih. Aksi ini
             tidak dapat dibatalkan dan data akan hilang secara permanen.
           </AlertDialogDescription>
         </AlertDialogHeader>
