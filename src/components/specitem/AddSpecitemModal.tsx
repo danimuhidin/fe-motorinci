@@ -9,24 +9,33 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogDescription
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { createSpecitem } from "@/lib/api/specitem";
 
 interface AddSpecitemModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  specGroups: { id: number; name: string; }[];
 }
 
-export function AddSpecitemModal({ isOpen, onClose, onSuccess }: AddSpecitemModalProps) {
+export function AddSpecitemModal({ isOpen, onClose, onSuccess, specGroups }: AddSpecitemModalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [specification_group_id, setSpecificationGroupId] = useState<number | null>(null);
+  const specification_group = specGroups.find(g => g.id === specification_group_id) || { id: 0, name: '' };
   const [unit, setUnit] = useState("");
-  
+
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,7 +43,7 @@ export function AddSpecitemModal({ isOpen, onClose, onSuccess }: AddSpecitemModa
     setName("");
     setDesc("");
     setUnit("");
-    setSpecificationGroupId(null);
+    setSpecificationGroupId(specGroups.length > 0 ? specGroups[0].id : null);
     setError(null);
   };
 
@@ -48,7 +57,7 @@ export function AddSpecitemModal({ isOpen, onClose, onSuccess }: AddSpecitemModa
     setError(null);
 
     try {
-      await createSpecitem({ name, desc, unit, specification_group_id });
+      await createSpecitem({ name, desc, unit, specification_group_id, specification_group });
       resetForm();
       onSuccess();
       onClose();
@@ -81,6 +90,28 @@ export function AddSpecitemModal({ isOpen, onClose, onSuccess }: AddSpecitemModa
         <div className="flex-grow overflow-y-auto -mr-6 pr-6">
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="specification_group_id" className="text-right">Group</Label>
+              <Select
+                value={specification_group_id ? String(specification_group_id) : ""}
+                onValueChange={(value) => setSpecificationGroupId(value ? Number(value) : null)}
+              >
+                <SelectTrigger className="col-span-3 w-full bg-gray-800 border-gray-600 focus:ring-red-500">
+                  <SelectValue placeholder="Pilih grup spesifikasi" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 text-white border-gray-600">
+                  {specGroups.map((group) => (
+                    <SelectItem
+                      key={group.id}
+                      value={String(group.id)}
+                      className="focus:bg-gray-700 focus:text-white"
+                    >
+                      {group.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">Nama</Label>
               <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Spesifikasi Item" />
             </div>
@@ -88,14 +119,10 @@ export function AddSpecitemModal({ isOpen, onClose, onSuccess }: AddSpecitemModa
               <Label htmlFor="description" className="text-right">Deskripsi</Label>
               <Input id="description" value={desc} onChange={(e) => setDesc(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Desc" />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
+            {/* <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="unit" className="text-right">Unit</Label>
               <Input id="unit" value={unit} onChange={(e) => setUnit(e.target.value)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Unit" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="specification_group_id" className="text-right">Group ID</Label>
-              <Input id="specification_group_id" type="number" value={specification_group_id ?? ''} onChange={(e) => setSpecificationGroupId(e.target.value ? parseInt(e.target.value) : null)} className="col-span-3 bg-gray-800 border-gray-600 focus:ring-red-500" placeholder="Input Group ID" />
-            </div>
+            </div> */}
           </div>
         </div>
 

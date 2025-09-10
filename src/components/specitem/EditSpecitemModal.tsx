@@ -13,6 +13,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { getSpecitemById, updateSpecitem } from "@/lib/api/specitem";
 import type { Specitem } from "@/types/specitem";
 
@@ -20,13 +27,15 @@ interface EditSpecitemModalProps {
   specitemId: number | null;
   onClose: () => void;
   onSuccess: () => void;
+  specGroups: { id: number; name: string; }[];
 }
 
-export function EditSpecitemModal({ specitemId, onClose, onSuccess }: EditSpecitemModalProps) {
+export function EditSpecitemModal({ specitemId, onClose, onSuccess, specGroups }: EditSpecitemModalProps) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [unit, setUnit] = useState("");
   const [specification_group_id, setSpecificationGroupId] = useState<number | null>(null);
+  const specification_group = specGroups.find(g => g.id === specification_group_id) || { id: 0, name: '' };
 
   const [initialSpecitem, setInitialSpecitem] = useState<Specitem | null>(null);
   const [loading, setLoading] = useState(false);
@@ -72,6 +81,7 @@ export function EditSpecitemModal({ specitemId, onClose, onSuccess }: EditSpecit
         desc,
         unit,
         specification_group_id,
+        specification_group
       });
       onSuccess();
       onClose();
@@ -113,12 +123,26 @@ export function EditSpecitemModal({ specitemId, onClose, onSuccess }: EditSpecit
                   <Input id="desc-edit" value={desc} onChange={(e) => setDesc(e.target.value)} className="col-span-3 bg-gray-800" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="unit-edit" className="text-right">Unit</Label>
-                  <Input id="unit-edit" value={unit} onChange={(e) => setUnit(e.target.value)} className="col-span-3 bg-gray-800" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="specification_group_id-edit" className="text-right">Group ID</Label>
-                  <Input id="specification_group_id-edit" type="number" value={specification_group_id ?? ''} onChange={(e) => setSpecificationGroupId(e.target.value ? parseInt(e.target.value) : null)} className="col-span-3 bg-gray-800" />
+                  <Select
+                    value={specification_group_id ? String(specification_group_id) : ""}
+                    onValueChange={(value) => setSpecificationGroupId(value ? Number(value) : null)}
+                  >
+                    <SelectTrigger className="col-span-3 w-full bg-gray-800 border-gray-600 focus:ring-red-500">
+                      <SelectValue placeholder="Pilih grup spesifikasi" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 text-white border-gray-600">
+                      {specGroups.map((group) => (
+                        <SelectItem
+                          key={group.id}
+                          value={String(group.id)}
+                          className="focus:bg-gray-700 focus:text-white"
+                        >
+                          {group.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>

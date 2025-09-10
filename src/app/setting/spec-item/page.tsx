@@ -8,6 +8,7 @@ import type { Specitem } from "@/types/specitem";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getSpecitems, deleteSpecitem } from "@/lib/api/specitem";
+import { getSpecgroups } from "@/lib/api/specgroup";
 import { AddSpecitemModal } from "@/components/specitem/AddSpecitemModal";
 import { ActionBar } from "@/components/ActionBar";
 import { SpecitemDetailModal } from "@/components/specitem/SpecitemDetailModal";
@@ -31,7 +32,7 @@ export default function SettingSpecitemPage() {
   const pressTimer = useRef<NodeJS.Timeout | null>(null);
   const isLongPressTriggered = useRef(false);
 
-
+  const [specGroups, setSpecGroups] = useState<{ id: number; name: string; }[]>([]);
 
   const refreshSpecitems = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
@@ -48,13 +49,25 @@ export default function SettingSpecitemPage() {
     }
   }, []);
 
+  const fetchSpecGroups = useCallback(async (signal?: AbortSignal) => {
+    try {
+      const data = await getSpecgroups(signal);
+      setSpecGroups(data);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        setError(err.message || 'Gagal memuat data.');
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const controller = new AbortController();
     refreshSpecitems(controller.signal);
+    fetchSpecGroups(controller.signal);
     return () => {
       controller.abort();
     };
-  }, [refreshSpecitems]);
+  }, [refreshSpecitems, fetchSpecGroups]);
 
   const toggleSelection = (id: number) => {
     setSelectedIds((prevIds) => {
@@ -163,7 +176,7 @@ export default function SettingSpecitemPage() {
               />
             )}
             <div>
-              <h3 className="font-semibold text-lg">{specitem.name}</h3>
+              <h3 className="font-semibold text-lg">{specitem.specification_group.name} - {specitem.name}</h3>
               <p
                 className="text-gray-400 text-sm mt-0 
                 whitespace-nowrap overflow-hidden text-ellipsis 
@@ -210,6 +223,7 @@ export default function SettingSpecitemPage() {
           await refreshSpecitems();
           toast.success("Sukses!", { description: "Specitem baru berhasil ditambahkan.", duration: 2000 });
         }}
+        specGroups={specGroups}
       />
 
       <SpecitemDetailModal
@@ -223,6 +237,7 @@ export default function SettingSpecitemPage() {
           await refreshSpecitems();
           toast.success("Sukses!", { description: "Specitem berhasil diperbarui." });
         }}
+        specGroups={specGroups}
       />
 
       <DeleteConfirmDialog

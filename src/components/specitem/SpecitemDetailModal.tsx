@@ -60,9 +60,12 @@ export function SpecitemDetailModal({ specitemId, onClose }: SpecitemDetailModal
 
     return (
       <div className="space-y-4">
+        <p className="text-gray-300">
+          {specitem.specification_group_id !== null && (
+            <span className="text-gray-500"> ({specitem.specification_group?.name || "N/A"})</span>
+          )}
+        </p>
         <p className="text-gray-300">{specitem.desc || "Tidak ada deskripsi."}</p>
-        <p className="text-sm text-gray-400">Unit: {specitem.unit || "N/A"}</p>
-        <p className="text-sm text-gray-400">ID Grup Spesifikasi: {specitem.specification_group_id !== null ? specitem.specification_group_id : "N/A"}</p>
       </div>
     );
   };
