@@ -63,7 +63,7 @@ export function FeatureDetailModal({ featureId, onClose }: FeatureDetailModalPro
 
     return (
       <div className="space-y-4">
-        <p className="text-gray-300">{feature.desc || "Tidak ada deskripsi."}</p>
+        <p className="text-gray-300 text-xs text-center">{feature.desc || "Tidak ada deskripsi."}</p>
 
         <div className="flex gap-4 justify-around items-start">
             <div className="text-center">
@@ -87,7 +87,7 @@ export function FeatureDetailModal({ featureId, onClose }: FeatureDetailModalPro
     <Dialog open={!!featureId} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{feature?.name || "Memuat..."}</DialogTitle>
+          <DialogTitle className="text-xl">{feature?.name || "Memuat..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         {renderContent()}

@@ -60,12 +60,12 @@ export function SpecitemDetailModal({ specitemId, onClose }: SpecitemDetailModal
 
     return (
       <div className="space-y-4">
-        <p className="text-gray-300">
+        <p className="text-gray-300 text-center">
           {specitem.specification_group_id !== null && (
-            <span className="text-gray-500"> ({specitem.specification_group?.name || "N/A"})</span>
+            <span className="text-gray-500 text-lg"> ({specitem.specification_group?.name || "N/A"})</span>
           )}
         </p>
-        <p className="text-gray-300">{specitem.desc || "Tidak ada deskripsi."}</p>
+        <p className="text-gray-300 text-xs text-center">{specitem.desc || "Tidak ada deskripsi."}</p>
       </div>
     );
   };
@@ -74,7 +74,7 @@ export function SpecitemDetailModal({ specitemId, onClose }: SpecitemDetailModal
     <Dialog open={!!specitemId} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{specitem?.name || "Memuat..."}</DialogTitle>
+          <DialogTitle className="text-xl">{specitem?.name || "Memuat..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         {renderContent()}

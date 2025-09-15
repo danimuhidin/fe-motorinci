@@ -154,7 +154,7 @@ export default function SettingBrandPage() {
             onClick={() => handleClick(brand.id)}
             onTouchStart={() => handleMouseDown(brand.id)} // For mobile
             onTouchEnd={handleMouseUp} // For mobile
-            className={`py-3 px-4 flex items-center gap-4 transition-colors duration-200 ${selectionMode ? 'cursor-pointer hover:bg-gray-800' : ''} ${selectedIds.includes(brand.id) ? 'bg-red-900/50' : ''}`}
+            className={`py-2 px-4 flex items-center gap-4 transition-colors duration-200 ${selectionMode ? 'cursor-pointer hover:bg-gray-800' : ''} ${selectedIds.includes(brand.id) ? 'bg-red-900/50' : ''}`}
           >
             {selectionMode && (
               <Checkbox
@@ -164,9 +164,9 @@ export default function SettingBrandPage() {
               />
             )}
             <div>
-              <h3 className="font-semibold text-lg">{brand.name}</h3>
+              <h3 className="font-semibold text-sm">{brand.name}</h3>
               <p
-                className="text-gray-400 text-sm mt-0 
+                className="text-gray-400 text-xs mt-0 
                 whitespace-nowrap overflow-hidden text-ellipsis 
                 max-w-[82vw] sm:max-w-[380px]"
               >

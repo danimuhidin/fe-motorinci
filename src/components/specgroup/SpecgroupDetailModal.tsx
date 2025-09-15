@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import {
   Dialog,
@@ -17,8 +16,6 @@ interface SpecgroupDetailModalProps {
   specgroupId: number | null;
   onClose: () => void;
 }
-
-const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 
 export function SpecgroupDetailModal({ specgroupId, onClose }: SpecgroupDetailModalProps) {
   const [specgroup, setSpecgroup] = useState<Specgroup | null>(null);
@@ -71,7 +68,7 @@ export function SpecgroupDetailModal({ specgroupId, onClose }: SpecgroupDetailMo
     <Dialog open={!!specgroupId} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{specgroup?.name || "Memuat..."}</DialogTitle>
+          <DialogTitle className="text-xl">{specgroup?.name || "Memuat..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         {renderContent()}

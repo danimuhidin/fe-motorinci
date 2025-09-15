@@ -19,8 +19,8 @@ type MenuItem = {
 };
 
 const menuItems: MenuItem[] = [
-  { href: "/compare", label: "Compare", icon: GitCompareArrows },
-  { href: "/calculator", label: "Calculator", icon: Calculator },
+  { href: "/compare", label: "Komparasi", icon: GitCompareArrows },
+  { href: "/calculator", label: "Kalkulator", icon: Calculator },
   { href: "/", label: "Home", icon: Home },
   { href: "/ai", label: "AI", icon: Bot },
   { href: "/setting", label: "Setting", icon: Settings },

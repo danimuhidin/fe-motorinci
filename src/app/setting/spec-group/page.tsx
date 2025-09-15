@@ -154,7 +154,7 @@ export default function SettingSpecgroupPage() {
             onClick={() => handleClick(specgroup.id)}
             onTouchStart={() => handleMouseDown(specgroup.id)} // For mobile
             onTouchEnd={handleMouseUp} // For mobile
-            className={`py-3 px-4 flex items-center gap-4 transition-colors duration-200 ${selectionMode ? 'cursor-pointer hover:bg-gray-800' : ''} ${selectedIds.includes(specgroup.id) ? 'bg-red-900/50' : ''}`}
+            className={`py-2 px-4 flex items-center gap-4 transition-colors duration-200 ${selectionMode ? 'cursor-pointer hover:bg-gray-800' : ''} ${selectedIds.includes(specgroup.id) ? 'bg-red-900/50' : ''}`}
           >
             {selectionMode && (
               <Checkbox
@@ -164,7 +164,7 @@ export default function SettingSpecgroupPage() {
               />
             )}
             <div>
-              <h3 className="font-semibold text-lg">{specgroup.name}</h3>
+              <h3 className="font-semibold text-sm">{specgroup.name}</h3>
             </div>
           </li>
         ))}

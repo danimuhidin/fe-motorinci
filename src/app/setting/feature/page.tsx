@@ -163,9 +163,9 @@ export default function SettingFeaturePage() {
               />
             )}
             <div>
-              <h3 className="font-semibold text-lg">{feature.name}</h3>
+              <h3 className="font-semibold text-sm">{feature.name}</h3>
               <p
-                className="text-gray-400 text-sm mt-0 
+                className="text-gray-400 text-xs mt-0 
                 whitespace-nowrap overflow-hidden text-ellipsis 
                 max-w-[82vw] sm:max-w-[380px]"
               >

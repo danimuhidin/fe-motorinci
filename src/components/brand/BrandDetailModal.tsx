@@ -63,7 +63,7 @@ export function BrandDetailModal({ brandId, onClose }: BrandDetailModalProps) {
 
     return (
       <div className="space-y-4">
-        <p className="text-gray-300">{brand.desc || "Tidak ada deskripsi."}</p>
+        <p className="text-gray-300 text-xs text-center">{brand.desc || "Tidak ada deskripsi."}</p>
         
         <div className="flex gap-4 justify-around items-start">
             <div className="text-center">
@@ -100,7 +100,7 @@ export function BrandDetailModal({ brandId, onClose }: BrandDetailModalProps) {
     <Dialog open={!!brandId} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{brand?.name || "Memuat..."}</DialogTitle>
+          <DialogTitle className="text-xl">{brand?.name || "Memuat..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         {renderContent()}

@@ -60,7 +60,7 @@ export function ColorDetailModal({ colorId, onClose }: ColorDetailModalProps) {
 
     return (
       <div className="space-y-4">
-        <p className="text-gray-300">{color.hex || "Tidak ada deskripsi."}</p>
+        <p className="text-gray-300 text-xs text-center">{color.hex || "Tidak ada deskripsi."}</p>
       </div>
     );
   };
@@ -69,7 +69,7 @@ export function ColorDetailModal({ colorId, onClose }: ColorDetailModalProps) {
     <Dialog open={!!colorId} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] sm:w-auto sm:max-w-md bg-black/98 text-white border border-white/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{color?.name || "Memuat..."}</DialogTitle>
+          <DialogTitle className="text-xl">{color?.name || "Memuat..."}</DialogTitle>
           <DialogDescription className="sr-only"></DialogDescription>
         </DialogHeader>
         {renderContent()}
