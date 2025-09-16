@@ -10,7 +10,7 @@ interface ComparisonCardProps {
 
 export function ComparisonCard({ title, children, loading }: ComparisonCardProps) {
   return (
-    <div className="rounded-lg border border-white/20 bg-zinc-900/50">
+    <div className="rounded-lg border border-white/20 bg-zinc-900/50 mb-4">
       <h3 className="text-sm font-semibold p-2 border-b border-white/20 text-center">
         {title}
       </h3>
@@ -18,9 +18,11 @@ export function ComparisonCard({ title, children, loading }: ComparisonCardProps
         <div className="p-3 space-y-2">
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 divide-x divide-white/20">
+        // Kita tidak lagi memaksakan grid di sini, biarkan children yang mengaturnya
+        <div className="p-3"> 
             {children}
         </div>
       )}

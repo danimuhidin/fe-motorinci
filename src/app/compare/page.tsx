@@ -85,7 +85,7 @@ export default function ComparePage() {
           disabled={!motor1Id || !motor2Id || loading}
           className="w-full bg-red-600 hover:bg-red-700"
         >
-          Bandingkan Sekarang
+          Bandingkan Motor
         </Button>
       </div>
     </>

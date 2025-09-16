@@ -15,8 +15,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Katalog Motor Keren",
-  description: "Dibuat dengan Next.js dan cinta",
+  title: "Motorinci | Katalog Motor",
+  description: "Aplikasi katalog motor untuk pencinta otomotif",
 };
 
 export default function RootLayout({
@@ -33,7 +33,7 @@ export default function RootLayout({
         )}
       >
         <div className="relative flex min-h-screen flex-col">
-          <main className="w-full max-w-md mx-auto flex-1 sm:border sm:shadow-lg sm:rounded-lg overflow-hidden sm:shadow-white/10 sm:border-white/10">
+          <main className="w-full max-w-md mx-auto flex-1 sm:border sm:shadow-lg sm:rounded-lg sm:shadow-white/10 sm:border-white/10">
             <ClientLayout>
               {children}
             </ClientLayout>
