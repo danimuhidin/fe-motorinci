@@ -1,4 +1,3 @@
-// app/compare/[slug]/page.tsx
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
@@ -6,38 +5,34 @@ import SimpleHeader from "@/components/SimpleHeader";
 import { MotorTitle } from "@/components/compare/MotorTitle";
 import { MotorCarousel } from "@/components/compare/MotorCarousel";
 import { ComparisonCard } from "@/components/compare/ComparisonCard";
-import { getMotorById } from "@/lib/api/motor";
+import { compareMotors } from "@/lib/api/motor";
 import type { Motor, Specification } from "@/types/motor";
+import { useParams } from "next/navigation";
 
-interface CompareResultPageProps {
-  params: { slug: string; };
-}
-
-const formatPrice = (price: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
-const findSpecValue = (specs: Specification[], specName: string) => {
-  const spec = specs.find(s => s.specification_item.name === specName);
-  return spec ? `${spec.value} ${spec.specification_item.unit || ""}`.trim() : "-";
-}
-
-export default function CompareResultPage({ params }: CompareResultPageProps) {
-  const ids = params.slug.split('-vs-');
+export default function CompareResultPage() {
+  const params = useParams(); // 3. Gunakan hook useParams untuk mendapatkan parameter
+  const ids = (params.slug as string).split('-vs-'); // 'slug' sesuai nama folder [slug]
   const motor1Id = Number(ids[0]);
   const motor2Id = Number(ids[1]);
-
+  
+  const formatPrice = (price: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+  const findSpecValue = (specs: Specification[], specName: string) => {
+    const spec = specs.find(s => s.specification_item.name === specName);
+    return spec ? `${spec.value} ${spec.specification_item.unit || ""}`.trim() : "-";
+  }
   const [motor1, setMotor1] = useState<Motor | null>(null);
   const [motor2, setMotor2] = useState<Motor | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAllMotorData = async () => {
+    // Logika pengambilan data sekarang menjadi jauh lebih sederhana
+    const fetchComparisonData = async () => {
       try {
         setLoading(true);
-        const [data1, data2] = await Promise.all([
-          getMotorById(motor1Id),
-          getMotorById(motor2Id)
-        ]);
-        setMotor1(data1);
-        setMotor2(data2);
+        // Cukup satu panggilan API
+        const { motor1, motor2 } = await compareMotors(motor1Id, motor2Id);
+        setMotor1(motor1);
+        setMotor2(motor2);
       } catch (error) {
         console.error(`Gagal memuat data perbandingan`, error);
       } finally {
@@ -45,7 +40,9 @@ export default function CompareResultPage({ params }: CompareResultPageProps) {
       }
     };
 
-    if (motor1Id && motor2Id) fetchAllMotorData();
+    if (motor1Id && motor2Id) {
+      fetchComparisonData();
+    }
   }, [motor1Id, motor2Id]);
 
   const specGroups = useMemo(() => {

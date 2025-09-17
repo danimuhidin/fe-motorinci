@@ -1,91 +1,54 @@
 // app/compare/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SimpleHeader from "@/components/SimpleHeader";
-import { Combobox } from "@/components/ui/combobox"; // Perubahan: Kembali menggunakan Combobox
 import { Button } from "@/components/ui/button";
-import { getMotors } from "@/lib/api/motor";
+import { MotorSearchCombobox } from "@/components/ui/MotorSearchCombobox"; // Impor komponen baru
 import type { Motor } from "@/types/motor";
-import { Loader2 } from "lucide-react";
 
 export default function ComparePage() {
   const router = useRouter();
-  const [motors, setMotors] = useState<Motor[]>([]);
-  const [loading, setLoading] = useState(true);
   
-  // Perubahan: Kembalikan tipe state ke number
-  const [motor1Id, setMotor1Id] = useState<number | undefined>();
-  const [motor2Id, setMotor2Id] = useState<number | undefined>();
-
-  useEffect(() => {
-    const fetchMotors = async () => {
-      try {
-        const data = await getMotors();
-        setMotors(data);
-      } catch (error) {
-        console.error("Gagal memuat data motor:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMotors();
-  }, []);
-
-  // Format data untuk Combobox
-  const motorOptions = motors.map((motor) => ({
-    value: motor.id, // Perubahan: value kembali menjadi number
-    label: `${motor.brand.name} ${motor.name} ${motor.year_model}`,
-  }));
+  const [motor1, setMotor1] = useState<Motor | undefined>();
+  const [motor2, setMotor2] = useState<Motor | undefined>();
 
   const handleCompare = () => {
-    if (motor1Id && motor2Id) {
-      router.push(`/compare/${motor1Id}-vs-${motor2Id}`);
+    if (motor1 && motor2) {
+      router.push(`/compare/${motor1.id}-vs-${motor2.id}`);
     }
   };
 
   return (
     <>
-      <SimpleHeader title="Komparasi" />
+      <SimpleHeader title="Komparasi Motor" />
       <div className="p-4 sm:p-6 space-y-6">
         <p className="text-gray-400 text-center">
           Pilih dua motor yang ingin Anda bandingkan spesifikasinya secara berdampingan.
         </p>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-40">
-            <Loader2 className="animate-spin text-red-500" size={32} />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 items-center">
-            <Combobox
-              options={motorOptions}
-              selectedValue={motor1Id}
-              onSelect={setMotor1Id}
-              placeholder="Pilih motor pertama..."
-              searchPlaceholder="Cari motor (Example: Honda ADV 2022)..."
-              notFoundText="Motor tidak ditemukan."
-            />
-            {/* ----vs----  */}
-            <div className="text-center text-gray-500 font-semibold">X</div>
-            <Combobox
-              options={motorOptions.filter(opt => opt.value !== motor1Id)}
-              selectedValue={motor2Id}
-              onSelect={setMotor2Id}
-              placeholder="Pilih motor kedua..."
-              searchPlaceholder="Cari motor (Example: Yamaha NMAX 2022)..."
-              notFoundText="Motor tidak ditemukan."
-            />
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <MotorSearchCombobox
+            selectedValue={motor1}
+            onSelect={setMotor1}
+            excludeId={motor2?.id} // Jangan tampilkan motor 2 di pilihan ini
+            placeholder="Pilih motor pertama..."
+          />
+          <MotorSearchCombobox
+            selectedValue={motor2}
+            onSelect={setMotor2}
+            excludeId={motor1?.id} // Jangan tampilkan motor 1 di pilihan ini
+            placeholder="Pilih motor kedua..."
+          />
+        </div>
         
         <Button
           onClick={handleCompare}
-          disabled={!motor1Id || !motor2Id || loading}
+          disabled={!motor1 || !motor2}
           className="w-full bg-red-600 hover:bg-red-700"
         >
-          Bandingkan Motor
+          Komparasi
         </Button>
       </div>
     </>
