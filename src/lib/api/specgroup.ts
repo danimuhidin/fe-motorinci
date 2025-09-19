@@ -16,6 +16,9 @@ export const getSpecgroups = async (signal?: AbortSignal): Promise<Specgroup[]> 
   const response = await fetchWithAuth<{ data: Specgroup[] }>('/motorinci/specification-groups', {
     signal,
     method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };

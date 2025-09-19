@@ -35,6 +35,9 @@ export const getFeatures = async (signal?: AbortSignal): Promise<Feature[]> => {
   const response = await fetchWithAuth<{ data: Feature[] }>('/motorinci/features', {
     signal,
     method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };

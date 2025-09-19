@@ -113,7 +113,7 @@ export default function HomePage() {
               <Loader2 className="animate-spin text-red-500" size={32} />
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 grid-cols-3 gap-4">
               {categories.map((category) => (
                 <Link key={category.id} href={`/category/${category.id}`}>
                   <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-zinc-800 group">
@@ -152,10 +152,10 @@ export default function HomePage() {
               <Loader2 className="animate-spin text-red-500" size={32} />
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-3 grid-cols-4 gap-4">
               {brands.map((brand) => (
                 <Link key={brand.id} href={`/brand/${brand.id}`}>
-                  <div className="relative aspect-square w-full rounded-lg bg-zinc-800 p-4 flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:bg-zinc-700">
+                  <div className="relative aspect-square w-full rounded-lg bg-zinc-800 p-4 flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:bg-zinc-700 overflow-hidden">
                     {brand.icon ? (
                       <Image
                         src={`${API_PUBLIC_URL}${brand.icon}`}

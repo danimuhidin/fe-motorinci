@@ -38,7 +38,10 @@ export const createBrand = async (brandData: BrandFormData): Promise<Brand> => {
 export const getBrands = async (signal?: AbortSignal): Promise<Brand[]> => {
   const response = await fetchWithAuth<{ data: Brand[] }>('/motorinci/brands', { 
     signal, 
-    method: 'GET' 
+    method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };

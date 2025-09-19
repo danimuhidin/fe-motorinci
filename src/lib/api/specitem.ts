@@ -24,6 +24,9 @@ export const getSpecitemById = async (id: number, signal?: AbortSignal): Promise
   const response = await fetchWithAuth<{ data: Specitem }>(`/motorinci/specification-items/${id}`, {
     signal,
     method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };

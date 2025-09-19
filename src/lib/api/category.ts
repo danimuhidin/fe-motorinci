@@ -37,6 +37,9 @@ export const getCategories = async (signal?: AbortSignal): Promise<Category[]> =
   const response = await fetchWithAuth<{ data: Category[] }>('/motorinci/categories', { 
     signal,
     method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };

@@ -16,6 +16,9 @@ export const getColors = async (signal?: AbortSignal): Promise<Color[]> => {
   const response = await fetchWithAuth<{ data: Color[] }>('/motorinci/colors', { 
     signal,
     method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };

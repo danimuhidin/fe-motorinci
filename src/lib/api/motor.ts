@@ -19,7 +19,10 @@ export interface HomePageData {
 export const getMotors = async (signal?: AbortSignal): Promise<Motor[]> => {
   const response = await fetchWithAuth<{ data: Motor[] }>('/motorinci/motors', { 
     signal, 
-    method: 'GET' 
+    method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   // Kita tambahkan parameter ?limit=1000 untuk mengambil semua data,
   // karena API Anda memiliki paginasi. Sesuaikan jika perlu.
@@ -55,6 +58,9 @@ export const getRandomMotors = async (limit: number = 10, signal?: AbortSignal):
   const response = await fetchWithAuth<any>(`/motorinci/motors/random?limit=${limit}`, {
     signal,
     method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data || response;
 }
@@ -69,7 +75,10 @@ export const compareMotors = async (id1: number, id2: number, signal?: AbortSign
 export const getHomePageData = async (signal?: AbortSignal): Promise<HomePageData> => {
   const response = await fetchWithAuth<{ data: HomePageData }>('/motorinci/front/home', { 
     signal, 
-    method: 'GET' 
+    method: 'GET',
+    next: {
+      revalidate: 86400
+    }
   });
   return response.data;
 };
