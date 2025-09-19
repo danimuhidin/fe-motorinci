@@ -8,13 +8,14 @@ import { ComparisonCard } from "@/components/compare/ComparisonCard";
 import { compareMotors } from "@/lib/api/motor";
 import type { Motor, Specification } from "@/types/motor";
 import { useParams } from "next/navigation";
+import { InfoBanner } from "@/components/ui/info-banner";
 
 export default function CompareResultPage() {
   const params = useParams(); // 3. Gunakan hook useParams untuk mendapatkan parameter
   const ids = (params.slug as string).split('-vs-'); // 'slug' sesuai nama folder [slug]
   const motor1Id = Number(ids[0]);
   const motor2Id = Number(ids[1]);
-  
+
   const formatPrice = (price: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
   const findSpecValue = (specs: Specification[], specName: string) => {
     const spec = specs.find(s => s.specification_item.name === specName);
@@ -79,7 +80,7 @@ export default function CompareResultPage() {
           </div>
         </div>
 
-        <div className="space-y-2 mt-1 pb-20">
+        <div className="space-y-2 mt-1">
           <ComparisonCard title="Informasi Umum" loading={loading}>
             <div className="space-y-4">
               <div className="border-b border-white/5 pb-1 mb-1">
@@ -165,7 +166,7 @@ export default function CompareResultPage() {
         </div>
       </div>
 
-      
+      <InfoBanner/>
     </>
   );
 }

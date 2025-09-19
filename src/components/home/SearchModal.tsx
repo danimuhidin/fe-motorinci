@@ -90,8 +90,8 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-lg cursor-pointer transition-colors"
                   onClick={() => handleSelectMotor(motor.id)}
                 >
-                  <p className="font-medium">{motor.brand.name} {motor.name}</p>
-                  <p className="text-sm text-gray-400">{motor.year_model}</p>
+                  <p className="text-sm">{motor.brand.name} {motor.name}</p>
+                  <p className="text-xs text-gray-400">{motor.year_model}</p>
                 </li>
               ))}
             </ul>

@@ -107,7 +107,7 @@ export default function HomePage() {
 
 
         <section>
-          <h2 className="text-xl font-bold mb-4">Jelajahi Kategori</h2>
+          <h2 className="text-lg font-bold mb-4">Jelajahi Kategori</h2>
           {loading ? (
             <div className="flex justify-center items-center h-40">
               <Loader2 className="animate-spin text-red-500" size={32} />
@@ -135,8 +135,8 @@ export default function HomePage() {
                         style={{ objectFit: "contain" }}
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-end">
-                      <p className="text-white text-lg font-semibold">{category.name}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-end justify-center">
+                      <p className="text-white text-base font-semibold">{category.name}</p>
                     </div>
                   </div>
                 </Link>
@@ -146,7 +146,7 @@ export default function HomePage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-bold mb-4">Jelajahi Brand</h2>
+          <h2 className="text-lg font-bold mb-4">Jelajahi Brand</h2>
           {loading ? (
             <div className="flex justify-center items-center h-24">
               <Loader2 className="animate-spin text-red-500" size={32} />

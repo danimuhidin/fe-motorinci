@@ -9,6 +9,7 @@ import { MotorCarousel } from "@/components/compare/MotorCarousel";
 import { getMotorById } from "@/lib/api/motor";
 import type { Motor } from "@/types/motor";
 import { Loader2 } from "lucide-react";
+import { InfoBanner } from "@/components/ui/info-banner";
 
 const formatPrice = (price: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
 
@@ -81,8 +82,8 @@ export default function MotorDetailPage() {
 
   return (
     <>
-      <SimpleHeader title={`${motor.brand.name} ${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-20 bg-black/98"/>
-      <div className="p-2 sm:p-4 pb-20">
+      <SimpleHeader title={`${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-20 bg-black/98"/>
+      <div className="p-2 sm:p-4">
         {/* 1. Carousel */}
         <div className="mb-4">
           <MotorCarousel motor={motor} loading={loading} />
@@ -91,6 +92,9 @@ export default function MotorDetailPage() {
         <div className="space-y-2">
           <ComparisonCard title="Informasi Umum">
             <ul className="space-y-2 text-sm">
+              <li className="flex justify-between"><span>Brand:</span> <span className="font-medium text-right">{motor.brand.name}</span></li>
+              <li className="flex justify-between"><span>Motor:</span> <span className="font-medium text-right">{motor.name}</span></li>
+              <li className="flex justify-between"><span>Tahun:</span> <span className="font-medium text-right">{motor.year_model}</span></li>
               <li className="flex justify-between"><span>Kategori:</span> <span className="font-medium text-right">{motor.category.name}</span></li>
               <li className="flex justify-between"><span>Kapasitas Mesin:</span> <span className="font-medium">{motor.engine_cc} cc</span></li>
               <li className="flex justify-between"><span>Harga (mulai dari):</span> <span className="font-medium">{formatPrice(motor.low_price)}</span></li>
@@ -120,6 +124,8 @@ export default function MotorDetailPage() {
           ))}
         </div>
       </div>
+      
+      <InfoBanner/>
     </>
   );
 }

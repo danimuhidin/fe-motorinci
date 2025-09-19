@@ -9,6 +9,7 @@ import type { Brand } from "@/types/brand";
 import { Loader2 } from "lucide-react";
 import { MotorCard } from "@/components/motor/MotorCard";
 import Image from "next/image";
+import { InfoBanner } from "@/components/ui/info-banner";
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 
@@ -82,7 +83,7 @@ export default function BrandDetailPage() {
       </div>
 
       {/* Daftar Motor */}
-      <div className="p-4 sm:p-6 pb-20">
+      <div className="p-4 sm:p-6">
         {brand.motors && brand.motors.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {brand.motors.map((motor) => (
@@ -93,6 +94,7 @@ export default function BrandDetailPage() {
           <p className="text-center text-gray-500 mt-8">Belum ada motor di brand ini.</p>
         )}
       </div>
+      <InfoBanner/>
     </>
   );
 }

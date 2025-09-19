@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { MotorCard } from "@/components/motor/MotorCard";
 import { use } from 'react';
 import Image from "next/image";
+import { InfoBanner } from "@/components/ui/info-banner";
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 
@@ -92,6 +93,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           <p className="text-center text-gray-500 mt-8">Tidak ada motor di kategori ini.</p>
         )}
       </div>
+      <InfoBanner/>
     </>
   );
 }

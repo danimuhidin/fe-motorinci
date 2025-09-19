@@ -30,9 +30,9 @@ export function MotorCard({ motor }: MotorCardProps) {
         </div>
         
         {/* Card Footer: Detail */}
-        <div className="p-3">
-          <h3 className="font-bold truncate">{motor.brand.name} {motor.name}</h3>
-          <div className="flex items-center justify-between text-xs text-gray-400 mt-2">
+        <div className="p-2">
+          <h3 className="font-bold text-sm truncate">{motor.brand.name} {motor.name}</h3>
+          <div className="flex items-center justify-between text-xs text-gray-400">
             <span>{motor.year_model}</span>
             <span>{motor.engine_cc} cc</span>
           </div>
