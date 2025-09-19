@@ -78,7 +78,7 @@ export default function BrandDetailPage() {
         {/* Konten Teks dengan z-index agar di atas gambar */}
         <div className="relative z-10">
           <h1 className="text-4xl font-bold">{brand.name}</h1>
-          {brand.desc && <p className="text-gray-300 mt-2 max-w-2xl mx-auto">{brand.desc}</p>}
+          {brand.desc && <p className="text-gray-300 mt-1 max-w-2xl mx-auto text-xs">{brand.desc}</p>}
         </div>
       </div>
 
