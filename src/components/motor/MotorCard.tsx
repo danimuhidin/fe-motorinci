@@ -2,7 +2,6 @@
 import type { Motor } from "@/types/motor";
 import Image from "next/image";
 import Link from "next/link";
-import { Tag } from "lucide-react";
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 

@@ -24,8 +24,8 @@ export function MotorTitle({ motor, loading }: MotorTitleProps) {
 
     return (
         <div className="text-center p-2 rounded-lg bg-zinc-900 sticky top-16 z-10">
-            <h2 className="text-base font-bold">{motor.brand.name} {motor.name}</h2>
-            <p className="text-gray-400 text-sm">{motor.year_model}</p>
+            <h2 className="text-sm font-bold">{motor.brand.name} {motor.name}</h2>
+            <p className="text-gray-400 text-xs">{motor.year_model}</p>
         </div>
     );
 }
