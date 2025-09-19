@@ -164,6 +164,8 @@ export default function CompareResultPage() {
           })}
         </div>
       </div>
+
+      
     </>
   );
 }

@@ -44,7 +44,7 @@ export const getMotorById = async (id: number, signal?: AbortSignal): Promise<Mo
 
 export const searchMotors = async (query: string, signal?: AbortSignal): Promise<Motor[]> => {
   if (!query) return [];
-  const response = await fetchWithAuth<{ data: Motor[] }>(`/motorinci/motors?search=${encodeURIComponent(query)}&limit=10`, { // Limit 10 suggest
+  const response = await fetchWithAuth<{ data: Motor[] }>(`/motorinci/search-motors?search=${encodeURIComponent(query)}&limit=10`, { // Limit 10 suggest
     signal, 
     method: 'GET' 
   });

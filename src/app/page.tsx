@@ -8,6 +8,7 @@ import { SearchModal } from "@/components/home/SearchModal";
 import { getHomePageData } from "@/lib/api/motor";
 import type { Motor } from "@/types/motor";
 import type { Category } from "@/types/category";
+import type { Brand } from "@/types/brand";
 import {
   Carousel,
   CarouselContent,
@@ -18,7 +19,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
-import type { Brand } from "@/types/brand";
 
 const API_PUBLIC_URL = process.env.NEXT_PUBLIC_API_PUBLIC_URL;
 

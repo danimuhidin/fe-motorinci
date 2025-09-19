@@ -57,7 +57,12 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] bg-zinc-900 border-white/20 text-white p-0">
+      <DialogContent 
+        className="
+          w-[95vw] sm:w-full sm:max-w-[425px]
+          bg-zinc-900 border-white/20 text-white p-0 rounded-lg
+          top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2"
+      >
         <DialogHeader className="p-4 border-b border-white/10">
           <DialogTitle>Cari Motor</DialogTitle>
           <DialogDescription className="text-gray-400">
