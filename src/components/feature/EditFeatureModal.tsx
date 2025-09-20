@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getFeatureById, updateFeature } from "@/lib/api/feature";
+import { getFeatureItemById, updateFeatureItem } from "@/lib/api/feature";
 import type { Feature } from "@/types/feature";
 
 interface EditFeatureModalProps {
@@ -42,7 +42,7 @@ export function EditFeatureModal({ featureId, onClose, onSuccess }: EditFeatureM
       setLoading(true);
       setError(null);
       try {
-        const data = await getFeatureById(featureId);
+        const data = await getFeatureItemById(featureId);
         setInitialFeature(data);
         setName(data.name);
         setDesc(data.desc || "");
@@ -67,7 +67,7 @@ export function EditFeatureModal({ featureId, onClose, onSuccess }: EditFeatureM
     setError(null);
 
     try {
-      await updateFeature(featureId, {
+      await updateFeatureItem(featureId, {
         name,
         desc,
         icon: newIcon,

@@ -11,7 +11,7 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 import type { Feature } from "@/types/feature";
-import { getFeatureById } from "@/lib/api/feature";
+import { getFeatureItemById } from "@/lib/api/feature";
 
 interface FeatureDetailModalProps {
   featureId: number | null;
@@ -34,7 +34,7 @@ export function FeatureDetailModal({ featureId, onClose }: FeatureDetailModalPro
       setError(null);
       setFeature(null);
       try {
-        const data = await getFeatureById(featureId, controller.signal);
+        const data = await getFeatureItemById(featureId, controller.signal);
         setFeature(data);
       } catch (err: any) {
         if (err.name !== 'AbortError') {

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createFeature } from "@/lib/api/feature";
+import { createFeatureItem } from "@/lib/api/feature";
 
 interface AddFeatureModalProps {
   isOpen: boolean;
@@ -46,7 +46,7 @@ export function AddFeatureModal({ isOpen, onClose, onSuccess }: AddFeatureModalP
     setError(null);
 
     try {
-      await createFeature({ name, desc, icon });
+      await createFeatureItem({ name, desc, icon });
       resetForm();
       onSuccess();
       onClose();

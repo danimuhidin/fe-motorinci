@@ -7,7 +7,7 @@ import SimpleHeader from "@/components/SimpleHeader";
 import type { Feature } from "@/types/feature";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { getFeatures, deleteFeature } from "@/lib/api/feature";
+import { getFeatureItems, deleteFeatureItem } from "@/lib/api/feature";
 import { AddFeatureModal } from "@/components/feature/AddFeatureModal";
 import { ActionBar } from "@/components/ActionBar";
 import { FeatureDetailModal } from "@/components/feature/FeatureDetailModal";
@@ -37,7 +37,7 @@ export default function SettingFeaturePage() {
     setLoading(true);
     setError(null);
     try {
-      const data = await getFeatures(signal);
+      const data = await getFeatureItems(signal);
       setFeatures(data);
     } catch (err: any) {
       if (err.name !== 'AbortError') {
@@ -88,7 +88,7 @@ export default function SettingFeaturePage() {
     setIsDeleting(true);
     try {
       for (const id of selectedIds) {
-        await deleteFeature(id);
+        await deleteFeatureItem(id);
       }
 
       toast.success("Sukses!", {
