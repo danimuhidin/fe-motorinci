@@ -34,7 +34,7 @@ export function MotorCarousel({ motor, loading }: MotorCarouselProps) {
                     motor.images.map((img) => (
                         <CarouselItem key={img.id}>
                             <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-zinc-800">
-                                <Image src={`${API_PUBLIC_URL}${img.image_url}`} alt={img.caption || motor.name} fill style={{ objectFit: "cover" }} />
+                                <Image src={`${API_PUBLIC_URL}${img.image}`} alt={img.desc || motor.name} fill style={{ objectFit: "cover" }} />
                             </div>
                         </CarouselItem>
                     ))

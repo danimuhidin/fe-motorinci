@@ -11,7 +11,7 @@ interface MotorCardProps {
 
 export function MotorCard({ motor }: MotorCardProps) {
   // Ambil gambar pertama dari array, atau null jika tidak ada
-  const mainImage = motor.images && motor.images.length > 0 ? motor.images[0].image_url : null;
+  const mainImage = motor.images && motor.images.length > 0 ? motor.images[0].image : null;
 
   return (
     <Link href={`/motor/${motor.id}`}>

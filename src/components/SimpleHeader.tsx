@@ -18,7 +18,7 @@ export default function Header({ title, backUrl, className }: HeaderProps) {
         </Link>
       )}
 
-      <h1 className="flex-1 text-left text-xl font-semibold pl-2 truncate">{title}</h1>
+      <h1 className="flex-1 text-left text-base font-semibold pl-2 truncate">{title}</h1>
     </header>
   );
 }

@@ -1,6 +1,6 @@
 // lib/api/motor.ts
 
-import type { Motor } from '@/types/motor';
+import type { Motor, MotorImage } from '@/types/motor';
 import type { Category } from '@/types/category';
 import type { Brand } from '@/types/brand';
 import { fetchWithAuth } from '../api';
@@ -8,11 +8,25 @@ interface CompareResponse {
   motor1: Motor;
   motor2: Motor;
 }
+
 export interface HomePageData {
   randomMotors: Motor[];
   categories: Category[];
   brands: Brand[];
 }
+
+export type MotorGeneralFormData = {
+  name: string;
+  brand_id: number;
+  category_id: number;
+  year_model: string;
+  engine_cc: number;
+  brochure_url?: string | null;
+  sparepart_url?: string | null;
+  low_price?: number | null;
+  up_price?: number | null;
+  desc?: string | null;
+};
 /**
  * READ (All): Mengambil daftar semua motor dari server.
  */
@@ -72,6 +86,7 @@ export const compareMotors = async (id1: number, id2: number, signal?: AbortSign
   });
   return response.data;
 };
+
 export const getHomePageData = async (signal?: AbortSignal): Promise<HomePageData> => {
   const response = await fetchWithAuth<{ data: HomePageData }>('/motorinci/front/home', { 
     signal, 
@@ -81,4 +96,46 @@ export const getHomePageData = async (signal?: AbortSignal): Promise<HomePageDat
     }
   });
   return response.data;
+};
+
+export const updateMotorGeneral = async (id: number, data: MotorGeneralFormData): Promise<Motor> => {
+  const response = await fetchWithAuth<{ data: Motor }>(`/motorinci/motors/${id}`, {
+    method: 'PUT', // Kita bisa gunakan PUT langsung jika API Anda mendukungnya untuk JSON
+    body: JSON.stringify(data),
+  });
+  return response.data;
+};
+
+export const uploadMotorImage = async (motorId: number, imageData: FormData): Promise<MotorImage> => {
+  // Kita tambahkan motor_id ke FormData di sini
+  imageData.append('motor_id', String(motorId));
+  const response = await fetchWithAuth<{ data: MotorImage }>('/motorinci/motor-images', {
+    method: 'POST',
+    body: imageData,
+  });
+  return response.data;
+};
+
+/**
+ * UPDATE: Mengubah file gambar yang sudah ada.
+ * Sesuai dengan kode backend yang Anda berikan.
+ */
+export const updateMotorImage = async (imageId: number, imageData: FormData): Promise<MotorImage> => {
+  // Method spoofing untuk Laravel
+  imageData.append('_method', 'PUT');
+  const response = await fetchWithAuth<{ data: MotorImage }>(`/motorinci/motor-images/${imageId}`, {
+    method: 'POST',
+    body: imageData,
+  });
+  return response.data;
+};
+
+/**
+ * DELETE: Menghapus sebuah gambar motor.
+ * Asumsi endpoint: DELETE /api/motorinci/motor-images/{id}
+ */
+export const deleteMotorImage = async (imageId: number): Promise<void> => {
+  await fetchWithAuth<void>(`/motorinci/motor-images/${imageId}`, {
+    method: 'DELETE',
+  });
 };

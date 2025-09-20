@@ -1,7 +1,7 @@
 import SimpleHeader from "@/components/SimpleHeader";
 import Link from "next/link";
 import {
-  Info, Factory, ListCollapse, Palette, Group, Box, CircleStar
+  Info, Factory, ListCollapse, Palette, Group, Box, CircleStar, Bike
 } from "lucide-react";
 
 export default function Setting() {
@@ -14,6 +14,12 @@ export default function Setting() {
     },
   ];
   const MenuSettings = [
+    {
+      title: "Motor",
+      description: "Manage data motor",
+      icon: <Bike className="text-xl" />,
+      href: "/setting/motor",
+    },
     {
       title: "Brand",
       description: "Manage data brand",

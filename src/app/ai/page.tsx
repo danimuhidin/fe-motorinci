@@ -65,7 +65,7 @@ export default function AiPage() {
 
   return (
     <div className="flex flex-col h-screen">
-      <SimpleHeader title="Motorinci AI" backUrl="/" />
+      <SimpleHeader title="Motorinci AI" />
       
       {/* Area Chat */}
       <div ref={chatContainerRef} className="flex-grow overflow-y-auto p-4 space-y-4">

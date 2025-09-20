@@ -20,8 +20,9 @@ export interface Feature {
 // Tipe untuk gambar
 export interface MotorImage {
   id: number;
-  image_url: string;
-  caption?: string | null;
+  motor_id: string;
+  image?: string | null;
+  desc?: string | null;
 }
 
 // Tipe untuk grup spesifikasi
@@ -47,12 +48,16 @@ export interface Motor {
   id: number;
   name: string;
   year_model: string;
+  brochure_url: string;
+  sparepart_url: string;
   engine_cc: number;
   low_price: number;
   up_price: number;
   desc?: string | null;
   brand: Brand;
+  brand_id: number;
   category: Category;
+  category_id: number;
   features: Feature[];
   images: MotorImage[];
   specifications: Specification[];
