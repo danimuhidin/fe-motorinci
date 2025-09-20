@@ -109,8 +109,8 @@ export default function CompareResultPage() {
                   <div className="text-xs text-gray-400">Harga (mulai dari)</div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <span className="text-sm">{motor1 ? formatPrice(motor1.low_price) : '-'}</span>
-                  <span className="text-sm">{motor2 ? formatPrice(motor2.low_price) : '-'}</span>
+                  <span className="text-xs">{motor1 ? formatPrice(motor1.low_price) : '-'}</span>
+                  <span className="text-xs">{motor2 ? formatPrice(motor2.low_price) : '-'}</span>
                 </div>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function CompareResultPage() {
           <ComparisonCard title="Fitur Unggulan" loading={loading}>
             <div className="grid grid-cols-2 gap-2">
               {/* Kolom Motor 1 */}
-              <div className="space-y-1 text-sm">
+              <div className="space-y-1 text-xs">
                 {motor1 && motor1.features.length > 0 ? (
                   motor1.features.map(f => <div key={f.id}>{f.feature_item.name}</div>)
                 ) : (
@@ -128,7 +128,7 @@ export default function CompareResultPage() {
               </div>
 
               {/* Kolom Motor 2 */}
-              <div className="space-y-1 text-sm">
+              <div className="space-y-1 text-xs">
                 {motor2 && motor2.features.length > 0 ? (
                   motor2.features.map(f => <div key={f.id}>{f.feature_item.name}</div>)
                 ) : (
@@ -154,8 +154,8 @@ export default function CompareResultPage() {
                         <div className="text-xs text-gray-400">{itemName}</div>
                       </div>
                       <div className="grid grid-cols-2 gap-2 mt-0 font-medium">
-                        <span className="text-sm">{motor1 ? findSpecValue(motor1.specifications, itemName) : '-'}</span>
-                        <span className="text-sm">{motor2 ? findSpecValue(motor2.specifications, itemName) : '-'}</span>
+                        <span className="text-xs">{motor1 ? findSpecValue(motor1.specifications, itemName) : '-'}</span>
+                        <span className="text-xs">{motor2 ? findSpecValue(motor2.specifications, itemName) : '-'}</span>
                       </div>
                     </div>
                   ))}

@@ -82,8 +82,8 @@ export default function MotorDetailPage() {
 
   return (
     <>
-      <SimpleHeader title={`${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-20 bg-black/98"/>
-      <div className="p-2 sm:p-4">
+      <SimpleHeader title={`${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-20 bg-black/98" />
+      <div className="p-4">
         {/* 1. Carousel */}
         <div className="mb-4">
           <MotorCarousel motor={motor} loading={loading} />
@@ -91,30 +91,52 @@ export default function MotorDetailPage() {
 
         <div className="space-y-2">
           <ComparisonCard title="Informasi Umum">
-            <ul className="space-y-2 text-sm">
-              <li className="flex justify-between"><span>Brand:</span> <span className="font-medium text-right">{motor.brand.name}</span></li>
-              <li className="flex justify-between"><span>Motor:</span> <span className="font-medium text-right">{motor.name}</span></li>
-              <li className="flex justify-between"><span>Tahun:</span> <span className="font-medium text-right">{motor.year_model}</span></li>
-              <li className="flex justify-between"><span>Kategori:</span> <span className="font-medium text-right">{motor.category.name}</span></li>
-              <li className="flex justify-between"><span>Kapasitas Mesin:</span> <span className="font-medium">{motor.engine_cc} cc</span></li>
-              <li className="flex justify-between"><span>Harga (mulai dari):</span> <span className="font-medium">{formatPrice(motor.low_price)}</span></li>
+            {/* Menghapus space-y dari ul, padding diatur di li */}
+            <ul className="text-sm">
+              <li className="flex justify-between py-1 border-b border-zinc-700">
+                <span className="text-xs text-gray-400">Brand:</span>
+                <span className="font-medium text-xs text-right">{motor.brand.name}</span>
+              </li>
+              <li className="flex justify-between py-1 border-b border-zinc-700">
+                <span className="text-xs text-gray-400">Motor:</span>
+                <span className="font-medium text-xs text-right">{motor.name}</span>
+              </li>
+              <li className="flex justify-between py-1 border-b border-zinc-700">
+                <span className="text-xs text-gray-400">Tahun:</span>
+                <span className="font-medium text-xs text-right">{motor.year_model}</span>
+              </li>
+              <li className="flex justify-between py-1 border-b border-zinc-700">
+                <span className="text-xs text-gray-400">Kategori:</span>
+                <span className="font-medium text-xs text-right">{motor.category.name}</span>
+              </li>
+              <li className="flex justify-between py-1 border-b border-zinc-700">
+                <span className="text-xs text-gray-400">Kapasitas Mesin:</span>
+                <span className="font-medium text-xs text-right">{motor.engine_cc} cc</span>
+              </li>
+              {/* last:border-b-0 tidak diperlukan karena ini elemen terakhir secara statis */}
+              <li className="flex justify-between pt-1">
+                <span className="text-xs text-gray-400">Harga (mulai dari):</span>
+                <span className="font-medium text-xs text-right">{formatPrice(motor.low_price)}</span>
+              </li>
             </ul>
           </ComparisonCard>
 
           <ComparisonCard title="Fitur Unggulan">
-            <ul className="space-y-2 text-sm list-disc list-inside">
+            <ul className="text-sm list-disc list-inside">
               {motor.features.length > 0 ? motor.features.map(f => (
-                <li key={f.id}>{f.feature_item.name}</li>
-              )) : <li>Tidak ada data fitur.</li>}
+                <li key={f.id} className="text-xs py-1 border-b border-zinc-700 last:border-b-0 last:pb-0">
+                  {f.feature_item.name}
+                </li>
+              )) : <li className="text-xs">Tidak ada data fitur.</li>}
             </ul>
           </ComparisonCard>
 
           {/* Mapping untuk setiap grup spesifikasi */}
           {specGroups.map(([groupName, specs]) => (
             <ComparisonCard key={groupName} title={groupName}>
-              <ul className="space-y-2 text-sm">
+              <ul className="text-xs">
                 {specs.map(s => (
-                  <li key={s.id} className="flex justify-between items-start gap-2">
+                  <li key={s.id} className="flex justify-between items-start gap-2 py-1 border-b border-zinc-700 last:border-b-0 last:pb-0">
                     <span className="text-gray-400">{s.specification_item.name}:</span>
                     <span className="font-medium text-right">{s.value} {s.specification_item.unit || ""}</span>
                   </li>
@@ -124,8 +146,8 @@ export default function MotorDetailPage() {
           ))}
         </div>
       </div>
-      
-      <InfoBanner/>
+
+      <InfoBanner />
     </>
   );
 }
