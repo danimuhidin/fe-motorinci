@@ -5,7 +5,7 @@ export default function AboutPage() {
   const appInfo = {
     name: "MOTORINCI",
     description: "Aplikasi ini dibuat untuk menampilkan katalog motor dari berbagai brand terkemuka.",
-    creator: "RWRR",
+    creator: "RWRR.ID",
     version: "1.0.0",
   };
 
