@@ -1,6 +1,6 @@
 import type { Color, NewColorData } from '@/types/color';
 import { fetchWithAuth } from '../api';
-import type { AvailableColor } from '@/types/motor';
+import type { MotorColor } from '@/types/motor';
 
 export const createColor = async (colorData: NewColorData): Promise<Color> => {
   const response = await fetchWithAuth<{ data: Color }>('/motorinci/colors', {
@@ -51,7 +51,7 @@ export const deleteColor = async (id: number): Promise<void> => {
   });
 };
 
-export const addMotorColor = async (motorId: number, colorId: number, image?: File): Promise<AvailableColor> => {
+export const addMotorColor = async (motorId: number, colorId: number, image?: File): Promise<MotorColor> => {
   const formData = new FormData();
   formData.append('motor_id', String(motorId));
   formData.append('color_id', String(colorId));
@@ -59,7 +59,7 @@ export const addMotorColor = async (motorId: number, colorId: number, image?: Fi
     formData.append('image', image);
   }
 
-  const response = await fetchWithAuth<{ data: AvailableColor }>('/motorinci/available-colors', {
+  const response = await fetchWithAuth<{ data: MotorColor }>('/motorinci/available-colors', {
     method: 'POST',
     body: formData,
   });
