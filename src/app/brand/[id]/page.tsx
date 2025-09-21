@@ -83,9 +83,9 @@ export default function BrandDetailPage() {
       </div>
 
       {/* Daftar Motor */}
-      <div className="p-4 sm:p-6">
+      <div className="p-4">
         {brand.motors && brand.motors.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {brand.motors.map((motor) => (
               <MotorCard key={motor.id} motor={motor} />
             ))}

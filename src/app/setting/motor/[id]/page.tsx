@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, FileText, ImageIcon, Star, Wrench } from "lucide-react";
+import { ChevronRight, FileText, ImageIcon, Star, Wrench, Palette } from "lucide-react";
 import SimpleHeader from "@/components/SimpleHeader";
 import { getMotorById } from "@/lib/api/motor";
 import type { Motor } from "@/types/motor";
@@ -15,6 +15,7 @@ const menuItems = [
     { href: "images", icon: ImageIcon, label: "Gambar", description: "Kelola galeri gambar motor." },
     { href: "features", icon: Star, label: "Fitur", description: "Atur fitur unggulan motor." },
     { href: "specifications", icon: Wrench, label: "Spesifikasi", description: "Kelola detail spesifikasi teknis." },
+    { href: "colors", icon: Palette, label: "Warna", description: "Atur warna yang tersedia." }
 ];
 
 export default function MotorSettingsMenuPage() {

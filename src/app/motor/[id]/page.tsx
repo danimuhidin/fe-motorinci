@@ -28,6 +28,7 @@ export default function MotorDetailPage() {
       try {
         setLoading(true);
         const data = await getMotorById(motorId, controller.signal);
+        console.log("Data motor:", data);
         setMotor(data);
       } catch (err: any) {
         if (err.name !== 'AbortError') {
@@ -84,14 +85,17 @@ export default function MotorDetailPage() {
     <>
       <SimpleHeader title={`${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-20 bg-black/98" />
       <div className="p-4">
-        {/* 1. Carousel */}
         <div className="mb-4">
           <MotorCarousel motor={motor} loading={loading} />
         </div>
 
+        <div className="my-4 space-y-0 text-center px-3">
+          <h1 className="text-lg font-bold">{motor.brand.name} {motor.name} {motor.year_model}</h1>
+          <p className="text-xs text-gray-400">{motor.desc}</p>
+        </div>
+
         <div className="space-y-2">
           <ComparisonCard title="Informasi Umum">
-            {/* Menghapus space-y dari ul, padding diatur di li */}
             <ul className="text-sm">
               <li className="flex justify-between py-1 border-b border-zinc-700">
                 <span className="text-xs text-gray-400">Brand:</span>
@@ -113,7 +117,6 @@ export default function MotorDetailPage() {
                 <span className="text-xs text-gray-400">Kapasitas Mesin:</span>
                 <span className="font-medium text-xs text-right">{motor.engine_cc} cc</span>
               </li>
-              {/* last:border-b-0 tidak diperlukan karena ini elemen terakhir secara statis */}
               <li className="flex justify-between pt-1">
                 <span className="text-xs text-gray-400">Harga (mulai dari):</span>
                 <span className="font-medium text-xs text-right">{formatPrice(motor.low_price)}</span>
@@ -131,7 +134,23 @@ export default function MotorDetailPage() {
             </ul>
           </ComparisonCard>
 
-          {/* Mapping untuk setiap grup spesifikasi */}
+          <ComparisonCard title="Warna Tersedia">
+            {motor.available_colors.length > 0 ? (
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {motor.available_colors.map(colorInfo => (
+                  <div
+                    key={colorInfo.id}
+                    className="h-8 w-8 rounded-full border-2 border-white/20 shadow-md"
+                    style={{ backgroundColor: colorInfo.color.hex }}
+                    title={colorInfo.color.name}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="py-2 text-center text-sm text-gray-500">-</p>
+            )}
+          </ComparisonCard>
+
           {specGroups.map(([groupName, specs]) => (
             <ComparisonCard key={groupName} title={groupName}>
               <ul className="text-xs">

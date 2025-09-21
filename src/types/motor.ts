@@ -61,4 +61,17 @@ export interface Motor {
   features: Feature[];
   images: MotorImage[];
   specifications: Specification[];
+  available_colors: MotorColor[];
+}
+
+export interface MotorColor {
+  id: number;
+  motor_id: number;
+  color_id: number;
+  image?: string | null;
+  color: {
+    id: number;
+    hex: string;
+    name: string;
+  };
 }

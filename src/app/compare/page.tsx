@@ -24,21 +24,21 @@ export default function ComparePage() {
     <>
       <SimpleHeader title="Komparasi Motor" />
       <div className="p-4 sm:p-6 space-y-6">
-        <p className="text-gray-400 text-center">
+        <p className="text-gray-300 text-center text-sm">
           Pilih dua motor yang ingin Anda bandingkan spesifikasinya secara berdampingan.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div className="grid grid-cols-1 gap-4 items-center">
           <MotorSearchCombobox
             selectedValue={motor1}
             onSelect={setMotor1}
-            excludeId={motor2?.id} // Jangan tampilkan motor 2 di pilihan ini
+            excludeId={motor2?.id}
             placeholder="Pilih motor pertama..."
           />
           <MotorSearchCombobox
             selectedValue={motor2}
             onSelect={setMotor2}
-            excludeId={motor1?.id} // Jangan tampilkan motor 1 di pilihan ini
+            excludeId={motor1?.id}
             placeholder="Pilih motor kedua..."
           />
         </div>

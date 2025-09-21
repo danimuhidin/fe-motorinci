@@ -84,7 +84,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       {/* Daftar Motor */}
       <div className="p-4 sm:p-6">
         {category.motors && category.motors.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {category.motors.map((motor) => (
               <MotorCard key={motor.id} motor={motor} />
             ))}

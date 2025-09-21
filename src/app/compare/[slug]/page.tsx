@@ -26,11 +26,9 @@ export default function CompareResultPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Logika pengambilan data sekarang menjadi jauh lebih sederhana
     const fetchComparisonData = async () => {
       try {
         setLoading(true);
-        // Cukup satu panggilan API
         const { motor1, motor2 } = await compareMotors(motor1Id, motor2Id);
         setMotor1(motor1);
         setMotor2(motor2);
@@ -62,7 +60,7 @@ export default function CompareResultPage() {
       />
 
       <div className="p-2 sm:p-4 pt-0 sm:p-0">
-        <div className="grid grid-cols-2 gap-2 sm:gap-4 items-start sticky top-12 z-10 pb-2 bg-black/98 pt-2 sm:p-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 items-start sticky top-12 z-10 py-2 mb-2 bg-[#050505]">
           <div className="space-y-4">
             <MotorTitle motor={motor1} loading={loading} />
           </div>
@@ -118,7 +116,6 @@ export default function CompareResultPage() {
 
           <ComparisonCard title="Fitur Unggulan" loading={loading}>
             <div className="grid grid-cols-2 gap-2">
-              {/* Kolom Motor 1 */}
               <div className="space-y-1 text-xs">
                 {motor1 && motor1.features.length > 0 ? (
                   motor1.features.map(f => <div key={f.id}>{f.feature_item.name}</div>)
@@ -127,7 +124,6 @@ export default function CompareResultPage() {
                 )}
               </div>
 
-              {/* Kolom Motor 2 */}
               <div className="space-y-1 text-xs">
                 {motor2 && motor2.features.length > 0 ? (
                   motor2.features.map(f => <div key={f.id}>{f.feature_item.name}</div>)
@@ -135,6 +131,31 @@ export default function CompareResultPage() {
                   <div>-</div>
                 )}
               </div>
+            </div>
+          </ComparisonCard>
+
+          <ComparisonCard title="Warna Tersedia" loading={loading}>
+            <div className="grid grid-cols-2">
+              <div className="flex">
+                {motor1 && motor1.available_colors.length > 0 ? (
+                  motor1.available_colors.map(c => (
+                    <div key={c.id} className="h-8 w-8 rounded-full border-2 border-white/20 shadow-md p-1" style={{ backgroundColor: c.color.hex }} />
+                  ))
+                ) : (
+                  <div>-</div>
+                )}
+              </div>
+
+              <div className="flex">
+                {motor2 && motor2.available_colors.length > 0 ? (
+                  motor2.available_colors.map(c => (
+                    <div key={c.id} className="h-8 w-8 rounded-full border-2 border-white/20 shadow-md" style={{ backgroundColor: c.color.hex }} />
+                  ))
+                ) : (
+                  <div>-</div>
+                )}
+              </div>
+
             </div>
           </ComparisonCard>
 
@@ -163,10 +184,10 @@ export default function CompareResultPage() {
               </ComparisonCard>
             )
           })}
-        </div>
-      </div>
+        </div >
+      </div >
 
-      <InfoBanner/>
+      <InfoBanner />
     </>
   );
 }

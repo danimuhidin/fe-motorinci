@@ -61,7 +61,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         className="
           w-[95vw] sm:w-full sm:max-w-[425px]
           bg-zinc-900 border-white/20 text-white p-0 rounded-lg
-          top-[5%] translate-y-0 sm:top-1/2 sm:-translate-y-1/2"
+          top-[5%] translate-y-0"
       >
         <DialogHeader className="p-4 border-b border-white/10">
           <DialogTitle>Cari Motor</DialogTitle>
@@ -101,7 +101,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             )
           )}
           {!debouncedSearchTerm && !loading && (
-            <p className="text-center text-gray-500 mt-4">Mulai ketik untuk mencari.</p>
+            <p className="text-center text-gray-500 mt-4 text-sm">Mulai ketik untuk mencari.</p>
           )}
         </div>
       </DialogContent>

@@ -85,7 +85,7 @@ export function HomePageClient({ randomMotors, categories, brands }: HomePageCli
                         {categories.map((category) => (
                             <Link key={category.id} href={`/category/${category.id}`}>
                                 <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-zinc-800 group">
-                                    {category.image ? ( // Asumsi category.image adalah URL gambar
+                                    {category.image ? (
                                         <Image
                                             src={`${API_PUBLIC_URL}${category.image}`}
                                             alt={category.name}
