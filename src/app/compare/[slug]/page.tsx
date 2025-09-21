@@ -61,12 +61,17 @@ export default function CompareResultPage() {
 
       <div className="p-2 sm:p-4 pt-0 sm:p-0">
         <div className="grid grid-cols-2 gap-2 sm:gap-4 items-start sticky top-12 z-10 py-2 mb-2 bg-[#050505]">
-          <div className="space-y-4">
-            <MotorTitle motor={motor1} loading={loading} />
-          </div>
-          <div className="space-y-4">
-            <MotorTitle motor={motor2} loading={loading} />
-          </div>
+          <a href={`/motor/${motor1Id}`}>
+            <div className="space-y-4">
+              <MotorTitle motor={motor1} loading={loading} />
+            </div>
+          </a>
+
+          <a href={`/motor/${motor2Id}`}>
+            <div className="space-y-4">
+              <MotorTitle motor={motor2} loading={loading} />
+            </div>
+          </a>
         </div>
 
         <div className="grid grid-cols-2 gap-2 sm:gap-4 items-start mb-4">
@@ -103,8 +108,8 @@ export default function CompareResultPage() {
               </div>
               <div className="pb-1 mb-0">
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="text-xs text-gray-400">Harga (mulai dari)</div>
-                  <div className="text-xs text-gray-400">Harga (mulai dari)</div>
+                  <div className="text-xs text-gray-400">Harga</div>
+                  <div className="text-xs text-gray-400">Harga</div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <span className="text-xs">{motor1 ? formatPrice(motor1.low_price) : '-'}</span>
