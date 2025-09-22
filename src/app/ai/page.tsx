@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 
-// Tipe untuk setiap pesan dalam chat
 interface Message {
   role: 'user' | 'ai';
   content: string;
@@ -31,7 +30,6 @@ export default function AiPage() {
   const [error, setError] = useState<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Efek untuk auto-scroll ke pesan terbaru
   useEffect(() => {
     chatContainerRef.current?.scrollTo(0, chatContainerRef.current.scrollHeight);
   }, [messages]);
@@ -67,7 +65,6 @@ export default function AiPage() {
     <div className="flex flex-col h-screen">
       <SimpleHeader title="Motorinci AI" />
       
-      {/* Area Chat */}
       <div ref={chatContainerRef} className="flex-grow overflow-y-auto p-4 space-y-4">
         {messages.map((msg, index) => (
           <div key={index} className={cn("flex", msg.role === 'user' ? 'justify-end' : 'justify-start')}>
@@ -90,7 +87,6 @@ export default function AiPage() {
         )}
       </div>
 
-      {/* Area Input */}
       <div className="p-4 bg-zinc-900/50 border-t border-white/10 pb-25">
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <TextareaAutosize
@@ -112,7 +108,6 @@ export default function AiPage() {
         </form>
       </div>
 
-      {/* Modal Error */}
       <AlertDialog open={!!error} onOpenChange={() => setError(null)}>
         <AlertDialogContent className="bg-zinc-900 border-white/20 text-white">
           <AlertDialogHeader>

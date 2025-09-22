@@ -11,8 +11,8 @@ import { useParams } from "next/navigation";
 import { InfoBanner } from "@/components/ui/info-banner";
 
 export default function CompareResultPage() {
-  const params = useParams(); // 3. Gunakan hook useParams untuk mendapatkan parameter
-  const ids = (params.slug as string).split('-vs-'); // 'slug' sesuai nama folder [slug]
+  const params = useParams();
+  const ids = (params.slug as string).split('-vs-');
   const motor1Id = Number(ids[0]);
   const motor2Id = Number(ids[1]);
 

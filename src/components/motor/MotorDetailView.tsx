@@ -9,6 +9,7 @@ import { getMotorById } from "@/lib/api/motor";
 import type { Motor } from "@/types/motor";
 import { Loader2 } from "lucide-react";
 import { InfoBanner } from "@/components/ui/info-banner";
+import { GlobalSearch } from "../search/GlobalSearch";
 
 const formatPrice = (price: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
 
@@ -45,7 +46,6 @@ export function MotorDetailView({ isAdmin }: { isAdmin: boolean }) {
     }, [motorId]);
 
     const specGroups = useMemo(() => {
-        // ... (logika useMemo Anda tidak berubah)
         if (!motor) return [];
         const groupMap = new Map<string, Motor['specifications']>();
         motor.specifications.forEach(spec => {
@@ -82,7 +82,7 @@ export function MotorDetailView({ isAdmin }: { isAdmin: boolean }) {
 
     return (
         <>
-            <SimpleHeader title={`${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-20 bg-black/98" />
+            <SimpleHeader title={`${motor.name} ${motor.year_model}`} backUrl="/" className="sticky top-0 z-19 bg-black/98" />
             <div className="p-4">
                 <div className="mb-4">
                     <MotorCarousel motor={motor} loading={loading} />

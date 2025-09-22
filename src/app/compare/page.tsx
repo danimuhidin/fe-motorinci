@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SimpleHeader from "@/components/SimpleHeader";
 import { Button } from "@/components/ui/button";
-import { MotorSearchCombobox } from "@/components/ui/MotorSearchCombobox"; // Impor komponen baru
+import { MotorSearchCombobox } from "@/components/ui/MotorSearchCombobox";
 import type { Motor } from "@/types/motor";
 
 export default function ComparePage() {

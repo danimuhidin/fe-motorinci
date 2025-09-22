@@ -1,5 +1,6 @@
 import type { Category, NewCategoryData } from '@/types/category';
 import { fetchWithAuth } from '../api';
+import type { PaginatedMotors } from '@/types/motor';
 
 export type CategoryFormData = Omit<NewCategoryData, 'image'> & {
   image?: File;
@@ -72,5 +73,12 @@ export const updateCategory = async (id: number, categoryData: Partial<CategoryF
 export const deleteCategory = async (id: number): Promise<void> => {
   await fetchWithAuth<void>(`/motorinci/categories/${id}`, {
     method: 'DELETE',
+  });
+};
+
+export const getMotorsByCategory = async (categoryId: number, page: number = 1, signal?: AbortSignal): Promise<PaginatedMotors> => {
+  return await fetchWithAuth<PaginatedMotors>(`/motorinci/categories/${categoryId}/motors?page=${page}`, {
+    signal,
+    method: 'GET',
   });
 };

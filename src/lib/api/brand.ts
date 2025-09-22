@@ -1,5 +1,6 @@
 import type { Brand, NewBrandData } from '@/types/brand';
 import { fetchWithAuth } from '../api';
+import type { PaginatedMotors } from '@/types/motor';
 
 export type BrandFormData = Omit<NewBrandData, 'icon' | 'image'> & {
   icon?: File;
@@ -74,5 +75,12 @@ export const updateBrand = async (id: number, brandData: Partial<BrandFormData>)
 export const deleteBrand = async (id: number): Promise<void> => {
   await fetchWithAuth<void>(`/motorinci/brands/${id}`, {
     method: 'DELETE',
+  });
+};
+
+export const getMotorsByBrand = async (brandId: number, page: number = 1, signal?: AbortSignal): Promise<PaginatedMotors> => {
+  return await fetchWithAuth<PaginatedMotors>(`/motorinci/brands/${brandId}/motors?page=${page}`, {
+    signal,
+    method: 'GET',
   });
 };

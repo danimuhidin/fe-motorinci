@@ -75,3 +75,9 @@ export interface MotorColor {
     name: string;
   };
 }
+
+export interface PaginatedMotors {
+  current_page: number;
+  data: Motor[];
+  last_page: number;
+}
