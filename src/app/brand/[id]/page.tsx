@@ -6,8 +6,8 @@ import { useParams } from "next/navigation";
 import { useInView } from 'react-intersection-observer';
 import SimpleHeader from "@/components/SimpleHeader";
 import Image from "next/image";
-import { getBrandById, getMotorsByBrand } from "@/lib/api/brand";
-import type { Brand } from "@/types/brand";
+import { getMotorsByBrand } from "@/lib/api/brand";
+import type { BrandMotor } from "@/types/motor";
 import type { Motor } from "@/types/motor";
 import { Loader2 } from "lucide-react";
 import { MotorCard } from "@/components/motor/MotorCard";
@@ -19,7 +19,7 @@ export default function BrandDetailPage() {
   const params = useParams();
   const brandId = Number(params.id);
 
-  const [brand, setBrand] = useState<Brand | null>(null);
+  const [brand, setBrand] = useState<BrandMotor | null>(null);
   const [motors, setMotors] = useState<Motor[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -33,15 +33,14 @@ export default function BrandDetailPage() {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        const [brandData, initialMotorData] = await Promise.all([
-          getBrandById(brandId),
+        const [initialMotorData] = await Promise.all([
           getMotorsByBrand(brandId, 1)
         ]);
 
-        setBrand(brandData);
-        setMotors(initialMotorData.data);
-        setCurrentPage(initialMotorData.current_page);
-        setHasNextPage(initialMotorData.current_page < initialMotorData.last_page);
+        setBrand(initialMotorData.brand);
+        setMotors(initialMotorData.data.data);
+        setCurrentPage(initialMotorData.data.current_page);
+        setHasNextPage(initialMotorData.data.current_page < initialMotorData.data.last_page);
       } catch (err) {
         console.error("Gagal memuat data awal:", err);
       } finally {
@@ -58,9 +57,9 @@ export default function BrandDetailPage() {
     try {
       const nextPage = currentPage + 1;
       const newMotorData = await getMotorsByBrand(brandId, nextPage);
-      setMotors(prevMotors => [...prevMotors, ...newMotorData.data]);
-      setCurrentPage(newMotorData.current_page);
-      setHasNextPage(newMotorData.current_page < newMotorData.last_page);
+      setMotors(prevMotors => [...prevMotors, ...newMotorData.data.data]);
+      setCurrentPage(newMotorData.data.current_page);
+      setHasNextPage(newMotorData.data.current_page < newMotorData.data.last_page);
     } catch (error) {
       console.error("Gagal memuat lebih banyak:", error);
     } finally {

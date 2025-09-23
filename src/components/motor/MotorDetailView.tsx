@@ -9,7 +9,6 @@ import { getMotorById } from "@/lib/api/motor";
 import type { Motor } from "@/types/motor";
 import { Loader2 } from "lucide-react";
 import { InfoBanner } from "@/components/ui/info-banner";
-import { GlobalSearch } from "../search/GlobalSearch";
 
 const formatPrice = (price: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
 

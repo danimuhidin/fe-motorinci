@@ -1,4 +1,3 @@
-// app/category/[id]/page.tsx
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -6,8 +5,8 @@ import { useParams } from "next/navigation";
 import { useInView } from 'react-intersection-observer';
 import SimpleHeader from "@/components/SimpleHeader";
 import Image from "next/image";
-import { getCategoryById, getMotorsByCategory } from "@/lib/api/category";
-import type { Category } from "@/types/category";
+import { getMotorsByCategory } from "@/lib/api/category";
+import type { Category } from "@/types/motor";
 import type { Motor } from "@/types/motor";
 import { Loader2 } from "lucide-react";
 import { MotorCard } from "@/components/motor/MotorCard";
@@ -33,15 +32,14 @@ export default function CategoryDetailPage() {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        const [categoryData, initialMotorData] = await Promise.all([
-            getCategoryById(categoryId),
+        const [initialMotorData] = await Promise.all([
             getMotorsByCategory(categoryId, 1)
         ]);
         
-        setCategory(categoryData);
-        setMotors(initialMotorData.data);
-        setCurrentPage(initialMotorData.current_page);
-        setHasNextPage(initialMotorData.current_page < initialMotorData.last_page);
+        setCategory(initialMotorData.category);
+        setMotors(initialMotorData.data.data);
+        setCurrentPage(initialMotorData.data.current_page);
+        setHasNextPage(initialMotorData.data.current_page < initialMotorData.data.last_page);
       } catch (err) {
         console.error("Gagal memuat data awal:", err);
       } finally {
@@ -58,9 +56,9 @@ export default function CategoryDetailPage() {
     try {
       const nextPage = currentPage + 1;
       const newMotorData = await getMotorsByCategory(categoryId, nextPage);
-      setMotors(prevMotors => [...prevMotors, ...newMotorData.data]);
-      setCurrentPage(newMotorData.current_page);
-      setHasNextPage(newMotorData.current_page < newMotorData.last_page);
+      setMotors(prevMotors => [...prevMotors, ...newMotorData.data.data]);
+      setCurrentPage(newMotorData.data.current_page);
+      setHasNextPage(newMotorData.data.current_page < newMotorData.data.last_page);
     } catch (error) {
         console.error("Gagal memuat lebih banyak:", error);
     } finally {

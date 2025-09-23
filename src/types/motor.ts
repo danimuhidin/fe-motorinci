@@ -8,6 +8,21 @@ export interface Category {
   image?: string | null;
 }
 
+export interface CategoryMotor {
+  id: number;
+  name: string;
+  desc?: string | null;
+  image?: string | null;
+}
+
+export interface BrandMotor {
+  id: number;
+  name: string;
+  desc?: string | null;
+  image?: string | null;
+  icon?: string | null;
+}
+
 // Tipe untuk item fitur
 export interface Feature {
   id: number;
@@ -77,7 +92,11 @@ export interface MotorColor {
 }
 
 export interface PaginatedMotors {
-  current_page: number;
-  data: Motor[];
-  last_page: number;
+  data: {
+    data: Motor[];
+    current_page: number;
+    last_page: number;
+  }
+  category: CategoryMotor | null;
+  brand: BrandMotor | null;
 }

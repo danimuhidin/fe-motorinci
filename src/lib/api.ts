@@ -104,3 +104,24 @@ export const fetchWithAuth = async <T>(
 
   return await response.json();
 };
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const publicFetch = async <T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> => {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'Public API request failed.' }));
+    throw new Error(errorData.message);
+  }
+  return response.json();
+};
