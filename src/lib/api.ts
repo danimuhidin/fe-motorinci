@@ -123,5 +123,6 @@ export const publicFetch = async <T>(
     const errorData = await response.json().catch(() => ({ message: 'Public API request failed.' }));
     throw new Error(errorData.message);
   }
+  
   return response.json();
 };
