@@ -24,6 +24,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const requireAuth = process.env.NEXT_ADMINISTRATOR_OR_NOT === 'true'
   return (
     <html lang="id">
       <body
@@ -34,7 +35,7 @@ export default function RootLayout({
       >
         <div className="relative flex min-h-screen flex-col">
           <main className="w-full max-w-md mx-auto flex-1 sm:border sm:shadow-lg sm:rounded-lg sm:shadow-white/10 sm:border-white/10">
-            <ClientLayout>
+            <ClientLayout requireAuth={requireAuth}>
               {children}
             </ClientLayout>
             <BottomNavbar />
