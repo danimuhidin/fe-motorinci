@@ -104,7 +104,7 @@ export function HomePageClient({ randomMotors, categories, brands }: HomePageCli
                                         />
                                     )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-3 flex items-end justify-center">
-                                        <p className="text-white text-base font-semibold">{category.name}</p>
+                                        <p className="text-white text-sm font-semibold">{category.name}</p>
                                     </div>
                                 </div>
                             </Link>
